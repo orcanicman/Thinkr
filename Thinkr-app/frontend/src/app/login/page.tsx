@@ -2,21 +2,25 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center">
-      <Image
-        alt="Logo"
-        src={"Thinkr-logo.svg"}
-        width={58}
-        height={58}
-        className="m-6"
-      />
+    <main className="flex min-h-screen flex-col sm:items-center sm:p-0 p-6">
+      <header className="flex flex-col items-center">
+        <Image
+          alt="Logo"
+          src={"Thinkr-logo.svg"}
+          width={58}
+          height={58}
+          className="m-6"
+        />
 
-      <h2 className="font-bold text-4xl">Thinkr</h2>
-      <h6 className="font-light">&ldquo;Speak your mind&rdquo;</h6>
+        <h2 className="font-bold text-4xl">Thinkr</h2>
+        <h6 className="font-light">&ldquo;Speak your mind&rdquo;</h6>
+      </header>
 
-      <form className="flex flex-col items-center max-w-96">
-        <h1 className="font-bold text-7xl mx-16 my-12">Sign in</h1>
-        <h6 className="font-light mb-8">
+      <form className="flex flex-col sm:max-w-96">
+        <h1 className="font-bold sm:text-7xl text-4xl sm:mx-16 sm:my-12 my-6">
+          Sign in
+        </h1>
+        <h6 className="hidden sm:block font-light mb-8">
           Sign in to see what your friends are thinking!
         </h6>
 
@@ -39,15 +43,12 @@ export default function Home() {
           <span>Remember me</span>
         </label>
 
-        <button
-          type="submit"
-          className="w-full bg-ownGreen rounded-lg py-3 hover:opacity-80"
-        >
+        <button type="submit" className="w-full bg-ownGreen rounded-lg py-3">
           Login
         </button>
       </form>
 
-      <footer className="overflow-hidden absolute bottom-0 w-screen h-24">
+      <footer className="overflow-hidden absolute bottom-0 w-screen sm:h-24 lg:h-60">
         <Image
           alt="LOL2"
           src={"Thinkr-login-blueFooter.svg"}
