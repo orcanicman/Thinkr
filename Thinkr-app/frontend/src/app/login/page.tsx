@@ -39,7 +39,10 @@ export default function Home() {
           <span>Remember me</span>
         </label>
 
-        <button type="submit" className="w-full bg-ownGreen rounded-lg py-3">
+        <button
+          type="submit"
+          className="w-full bg-ownGreen rounded-lg py-3 hover:opacity-80"
+        >
           Login
         </button>
       </form>
