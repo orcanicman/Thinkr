@@ -2,8 +2,8 @@ import Image from "next/image";
 
 export default function Login() {
   return (
-    <main className="flex min-h-screen flex-col sm:items-center sm:p-0 p-6">
-      <header className="flex flex-col items-center mb-4">
+    <main className="flex min-h-screen flex-col p-6 sm:items-center sm:p-0">
+      <header className="mb-4 flex flex-col items-center">
         <Image
           alt="Logo"
           src={"Thinkr-logo.svg"}
@@ -12,59 +12,59 @@ export default function Login() {
           className="m-6"
         />
 
-        <h2 className="font-bold text-4xl">Thinkr</h2>
+        <h2 className="text-4xl font-bold">Thinkr</h2>
         <h6 className="font-light">&ldquo;Speak your mind&rdquo;</h6>
       </header>
 
       <form className="flex flex-col sm:w-96 sm:items-center">
-        <h1 className="font-bold sm:text-7xl text-6xl sm:my-12 my-6">
+        <h1 className="my-6 text-6xl font-bold sm:my-12 sm:text-7xl">
           Sign in
         </h1>
-        <h6 className="hidden sm:block font-light mb-8">
+        <h6 className="mb-8 hidden font-light sm:block">
           Sign in to see what your friends are thinking!
         </h6>
 
         <input
           type="email"
-          className="rounded-lg bg-ownLightBlue placeholder:text-ownWhite px-5 py-4 mb-4 w-full"
+          className="mb-4 w-full rounded-lg bg-ownLightBlue px-5 py-4 placeholder:text-ownWhite"
           placeholder="Email"
         />
         <input
           type="password"
-          className="rounded-lg bg-ownLightBlue placeholder:text-ownWhite px-5 py-4 mb-4 w-full"
+          className="mb-4 w-full rounded-lg bg-ownLightBlue px-5 py-4 placeholder:text-ownWhite"
           placeholder="Password"
         />
 
-        <label className="w-full flex items-center space-x-2 mb-4">
+        <label className="mb-4 flex w-full items-center space-x-2">
           <input
             type="checkbox"
-            className="appearance-none bg-ownLightBlue checked:bg-ownGreen p-2 rounded cursor-pointer"
+            className="cursor-pointer appearance-none rounded bg-ownLightBlue p-2 checked:bg-ownGreen"
           />
           <span>Remember me</span>
         </label>
 
         <button
           type="submit"
-          className="w-full bg-ownGreen rounded-lg py-3 shadow-ownBlack shadow-lg hover:opacity-80"
+          className="w-full rounded-lg bg-ownGreen py-3 shadow-lg shadow-ownBlack hover:opacity-80"
         >
           Login
         </button>
       </form>
 
-      <footer className="overflow-hidden absolute bottom-0 w-screen sm:h-24 lg:h-60">
+      <footer className="absolute bottom-0 w-screen overflow-hidden sm:h-24 lg:h-60">
         <Image
           alt="LOL2"
           src={"Thinkr-login-blueFooter.svg"}
           width={1280}
           height={111}
-          className="absolute left-0 -bottom-10 w-screen opacity-80 dark:opacity-20"
+          className="absolute -bottom-10 left-0 w-screen opacity-80 dark:opacity-20"
         />
         <Image
           alt="LOL"
           src={"Thinkr-login-greenFooter.svg"}
           width={1280}
           height={111}
-          className="absolute left-0 -bottom-10 w-screen opacity-80 dark:opacity-20"
+          className="absolute -bottom-10 left-0 w-screen opacity-80 dark:opacity-20"
         />
       </footer>
     </main>
