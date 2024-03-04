@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Home() {
+export default function Register() {
   return (
     <main className="flex min-h-screen flex-col sm:items-center sm:p-0 p-6">
       <header className="flex flex-col items-center mb-4">
