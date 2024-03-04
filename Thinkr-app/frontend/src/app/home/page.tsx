@@ -14,21 +14,23 @@ export default function Home() {
               className="h-12 grow rounded-3xl bg-ownLightBlue px-4 py-1 font-bold"
             />
           </section>
+
           <section className="mx-8 grow justify-between text-2xl font-bold">
             Home
           </section>
+
           <section className="flex w-96 items-center justify-between space-x-8">
-            <nav className="flex h-12 grow items-center rounded-3xl bg-ownLightBlue">
+            <button className="flex h-12 grow items-center rounded-3xl bg-ownLightBlue">
               {/* IMAGE PLACEHOLDER */}
               <div className="m-1 h-10 w-10 rounded-full bg-ownBlack" />
               {/* IMAGE PLACEHOLDER */}
 
               {/* NAME PLACEHOLDER */}
-              <div className="mx-2 grow">NAME</div>
+              <div className="mx-2 grow text-start">NAME</div>
               {/* NAME PLACEHOLDER */}
 
               {/* CHEVVY PLACEHOLDER */}
-              <button
+              <div
                 className="mx-4 h-0 w-0 rounded-full"
                 style={{
                   width: "0px",
@@ -40,7 +42,7 @@ export default function Home() {
                 }}
               />
               {/* CHEVVYPLACEHOLDER */}
-            </nav>
+            </button>
             <Image alt="Menu" src={"9-dot-menu.svg"} width={30} height={30} />
           </section>
         </section>
