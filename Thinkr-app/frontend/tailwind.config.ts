@@ -10,6 +10,7 @@ const config: Config = {
     colors: {
       ownWhite: "#FFFFFF",
       ownCream: "#E5E5E5",
+      ownLight: "#d4d4d4",
       ownBlack: "#2D2D2D",
       ownBlue: "#093545",
       ownDarkBlue: "#262C30",
@@ -17,6 +18,7 @@ const config: Config = {
       ownLighterBlue: "#295568",
       ownGrey: "#888888",
       ownGreen: "#20DF7F",
+      ownTransparent: "#00000000",
     },
   },
   plugins: [],
