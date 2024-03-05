@@ -2,8 +2,8 @@ import Image from "next/image";
 
 export default function Login() {
   return (
-    <main className="flex min-h-screen flex-col p-6 sm:items-center sm:p-0">
-      <header className="mb-4 flex flex-col items-center">
+    <main className="flex max-h-screen min-h-screen flex-col overflow-hidden p-6 sm:items-center sm:p-0">
+      <header className="flex flex-col items-center">
         <Image
           alt="Logo"
           src={"Thinkr-logo.svg"}
@@ -17,10 +17,10 @@ export default function Login() {
       </header>
 
       <form className="flex flex-col sm:w-96 sm:items-center">
-        <h1 className="my-6 text-6xl font-bold sm:my-12 sm:text-7xl">
+        <h1 className="my-6 text-6xl font-bold sm:my-10 sm:text-7xl">
           Sign in
         </h1>
-        <h6 className="mb-8 hidden font-light sm:block">
+        <h6 className="mb-8 hidden text-center font-light sm:block">
           Sign in to see what your friends are thinking!
         </h6>
 
