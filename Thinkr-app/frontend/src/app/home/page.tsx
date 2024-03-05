@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -6,7 +7,14 @@ export default function Home() {
       <header className="mb-10">
         <section className="flex items-center">
           <section className="flex w-96 items-center justify-between space-x-8">
-            <Image alt="Logo" src={"Thinkr-logo.svg"} width={58} height={58} />
+            <Link href={"home"}>
+              <Image
+                alt="Logo"
+                src={"Thinkr-logo.svg"}
+                width={58}
+                height={58}
+              />
+            </Link>
 
             <input
               type="text"
@@ -43,15 +51,56 @@ export default function Home() {
               />
               {/* CHEVVYPLACEHOLDER */}
             </button>
-            <Image alt="Menu" src={"9-dot-menu.svg"} width={30} height={30} />
+            <button>
+              <Image alt="Menu" src={"9-dot-menu.svg"} width={30} height={30} />
+            </button>
           </section>
         </section>
       </header>
 
       <section className="flex">
-        <section className="w-96 rounded-xl bg-ownLightBlue">1</section>
-        <section className="mx-8 grow rounded-xl bg-ownLightBlue">2</section>
-        <section className="w-96 rounded-xl bg-ownLightBlue">3</section>
+        <section className="relative flex w-96 flex-col items-center overflow-hidden rounded-3xl bg-ownLightBlue">
+          {/* topPart */}
+          <div className="relative mb-6 flex w-full flex-col items-center">
+            {/* IMAGE PLACEHOLDER */}
+            <div className="mb-4 h-24 w-full bg-ownBlack" />
+
+            {/* Picture PLACEHOLDER */}
+            <div className="absolute mt-12 h-24 w-24 rounded-full bg-ownWhite" />
+          </div>
+
+          <div className="flex flex-col items-center p-6">
+            {/* NAME PLACEHOLDER */}
+            <h2 className="text-lg font-bold">NAME</h2>
+            {/* TAG PLACEHOLDER */}
+            <h3 className="text-ownGrey mb-1">@tag</h3>
+            <p className="text-center font-medium">
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Atque
+              exercitationem optio quisquam?
+            </p>
+          </div>
+
+          <div className="border-ownLighterBlue flex w-full border-b border-t">
+            <button className="flex flex-1 flex-col items-center p-5">
+              <div className="font-bold">1,024</div>
+              <div className="text-ownGrey">Following</div>
+            </button>
+            <div className="border-ownLighterBlue border-r" />
+            <button className="flex flex-1 flex-col items-center p-5">
+              <div className="font-bold">128</div>
+              <div className="text-ownGrey">Followers</div>
+            </button>
+          </div>
+
+          <Link
+            href={"#"}
+            className="w-full p-4 text-center text-ownGreen underline"
+          >
+            Show profile
+          </Link>
+        </section>
+        <section className="mx-8 grow rounded-3xl bg-ownLightBlue">2</section>
+        <section className="w-96 rounded-3xl bg-ownLightBlue">3</section>
       </section>
     </main>
   );

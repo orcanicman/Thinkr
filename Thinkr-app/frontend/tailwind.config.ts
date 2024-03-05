@@ -14,6 +14,8 @@ const config: Config = {
       ownBlue: "#093545",
       ownDarkBlue: "#262C30",
       ownLightBlue: "#224957",
+      ownLighterBlue: "#295568",
+      ownGrey: "#888888",
       ownGreen: "#20DF7F",
     },
   },
