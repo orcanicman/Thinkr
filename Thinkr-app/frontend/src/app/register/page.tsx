@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Register() {
   return (
-    <main className="flex max-h-screen min-h-screen flex-col overflow-hidden p-6 sm:items-center sm:p-0">
+    <main className="flex max-h-screen min-h-screen flex-col overflow-auto no-scrollbar p-6 sm:items-center sm:p-0">
       <header className="flex flex-col items-center">
         <Image
           alt="Logo"

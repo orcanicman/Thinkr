@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Login() {
   return (
-    <main className="flex max-h-screen min-h-screen flex-col overflow-hidden p-6 sm:items-center sm:p-0">
+    <main className="flex max-h-screen min-h-screen flex-col overflow-auto no-scrollbar p-6 sm:items-center sm:p-0">
       <header className="flex flex-col items-center">
         <Image
           alt="Logo"
