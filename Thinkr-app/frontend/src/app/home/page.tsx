@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { InputBox } from "./InputBox";
 
 export default function Home() {
   return (
@@ -8,7 +9,7 @@ export default function Home() {
 
       <section className="flex items-start">
         <Profile className="relative flex w-96 flex-col items-center overflow-hidden rounded-3xl bg-ownLight dark:bg-ownLightBlue" />
-        <Content className="mx-8 grow rounded-3xl bg-ownLight dark:bg-ownLightBlue" />
+        <Content className="mx-8 grow" />
         <Recommended className="w-96 rounded-3xl bg-ownLight dark:bg-ownLightBlue" />
       </section>
     </main>
@@ -76,7 +77,7 @@ const Profile = ({ className }: { className?: string }) => {
     <section className={className}>
       {/* topPart */}
       <div className="relative mb-6 flex w-full flex-col items-center">
-        {/* IMAGE PLACEHOLDER */}
+        {/* BANNER PLACEHOLDER */}
         <div className="mb-4 h-24 w-full bg-ownBlack" />
 
         {/* Picture PLACEHOLDER */}
@@ -117,7 +118,16 @@ const Profile = ({ className }: { className?: string }) => {
 };
 
 const Content = ({ className }: { className?: string }) => {
-  return <section className={className}>2</section>;
+  return (
+    <section className={`${className}`}>
+      <InputBox />
+      <div className="mb-8 flex rounded-3xl bg-ownLight p-8 dark:bg-ownLightBlue">
+        {/* PICTURE PLACEHOLDER */}
+        <div className="mr-8 h-12 w-12 rounded-full bg-ownWhite" />
+        <div className="flex grow flex-col">WHAAAT</div>
+      </div>
+    </section>
+  );
 };
 
 const Recommended = ({ className }: { className?: string }) => {
@@ -135,6 +145,10 @@ const Recommended = ({ className }: { className?: string }) => {
         likes={255}
         link="#"
       />
+      {/* TODO: Formatting for the likes: {Intl.NumberFormat("en-US", {
+            notation: "compact",
+            maximumFractionDigits: 1,
+          }).format(likes)} */}
       <RecommendedPost title="PLACEHOLDER TITLE 2" likes={1252} link="#" />
       <Link href={"#"} className="text-ownGreen hover:underline">
         Show more
