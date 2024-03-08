@@ -6,7 +6,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col px-10 py-6">
       <Header className="mb-10" />
 
-      <section className="flex">
+      <section className="flex items-start">
         <Profile className="relative flex w-96 flex-col items-center overflow-hidden rounded-3xl bg-ownLight dark:bg-ownLightBlue" />
         <Content className="mx-8 grow rounded-3xl bg-ownLight dark:bg-ownLightBlue" />
         <Recommended className="w-96 rounded-3xl bg-ownLight dark:bg-ownLightBlue" />
@@ -27,7 +27,7 @@ const Header = ({ className }: { className?: string }) => {
           <input
             type="text"
             placeholder="# Explore"
-            className="h-12 grow rounded-3xl bg-ownLight px-4 py-1 font-bold dark:bg-ownLightBlue"
+            className="h-12 grow rounded-xl bg-ownLight px-4 py-1 font-bold dark:bg-ownLightBlue"
           />
         </section>
 
@@ -108,7 +108,7 @@ const Profile = ({ className }: { className?: string }) => {
 
       <Link
         href={"#"}
-        className="w-full p-4 text-center text-ownGreen underline"
+        className="w-full p-4 text-center text-ownGreen hover:underline"
       >
         Show profile
       </Link>
@@ -121,5 +121,53 @@ const Content = ({ className }: { className?: string }) => {
 };
 
 const Recommended = ({ className }: { className?: string }) => {
-  return <section className={className}>3</section>;
+  return (
+    <section className={`${className} p-6`}>
+      <div className="mb-4 flex">
+        <h1 className="grow text-xl font-bold">Popular posts</h1>
+        <button>
+          <Image alt="Settings" src={"gear-icon.svg"} width={26} height={26} />
+        </button>
+      </div>
+      <h3 className="mb-4 text-ownGrey">RECENT POPULAR POSTS</h3>
+      <RecommendedPost
+        title="PLACEHOLDER TITLE 1  sa dafd a da da da"
+        likes={255}
+        link="#"
+      />
+      <RecommendedPost title="PLACEHOLDER TITLE 2" likes={1252} link="#" />
+      <Link href={"#"} className="text-ownGreen hover:underline">
+        Show more
+      </Link>
+    </section>
+  );
+};
+
+const RecommendedPost = ({
+  likes,
+  link,
+  title,
+}: {
+  title: string;
+  likes: number;
+  link: string;
+}) => {
+  return (
+    <Link href={link} className="mb-4 flex w-full justify-between space-x-2">
+      <div className="">
+        <h2 className="mb-1 max-w-60 overflow-hidden overflow-ellipsis whitespace-nowrap hover:underline">
+          {title}
+        </h2>
+        <h3 className="text-ownGrey">{likes} Likes</h3>
+      </div>
+      <button className="min-w-7">
+        <Image
+          alt="Settings"
+          src={"menu-meatball.svg"}
+          width={26}
+          height={26}
+        />
+      </button>
+    </Link>
+  );
 };
