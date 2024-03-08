@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { InputBox } from "./InputBox";
 import { RecommendedPost } from "./RecommendedPost";
+import { relativeDateFormatter } from "@/helpers/relativeDateFormatter";
 
 export default function Home() {
   return (
@@ -9,9 +10,9 @@ export default function Home() {
       <Header className="mb-10" />
 
       <section className="flex items-start">
-        <Profile className="relative flex w-96 flex-col items-center overflow-hidden rounded-3xl bg-ownLight dark:bg-ownLightBlue" />
+        <Profile className="relative flex w-96 min-w-96 flex-col items-center overflow-hidden rounded-3xl bg-ownLight dark:bg-ownLightBlue" />
         <Content className="mx-8 grow" />
-        <Recommended className="w-96 rounded-3xl bg-ownLight dark:bg-ownLightBlue" />
+        <Recommended className="w-96 min-w-96 rounded-3xl bg-ownLight dark:bg-ownLightBlue" />
       </section>
     </main>
   );
@@ -21,7 +22,7 @@ const Header = ({ className }: { className?: string }) => {
   return (
     <header className={className}>
       <section className="flex items-center">
-        <section className="flex w-96 items-center justify-between space-x-8">
+        <section className="flex w-96 min-w-96 items-center justify-between space-x-8">
           <Link href={"home"}>
             <Image alt="Logo" src={"Thinkr-logo.svg"} width={58} height={58} />
           </Link>
@@ -37,7 +38,7 @@ const Header = ({ className }: { className?: string }) => {
           Home
         </section>
 
-        <section className="flex w-96 items-center justify-between space-x-8">
+        <section className="flex w-96 min-w-96 items-center justify-between space-x-8">
           <button className="flex h-12 grow items-center rounded-3xl bg-ownLight dark:bg-ownLightBlue">
             {/* IMAGE PLACEHOLDER */}
             <div className="m-1 h-10 w-10 rounded-full bg-ownBlack" />
@@ -122,10 +123,41 @@ const Content = ({ className }: { className?: string }) => {
   return (
     <section className={`${className}`}>
       <InputBox />
-      <div className="mb-8 flex rounded-3xl bg-ownLight p-8 dark:bg-ownLightBlue">
+      <div className="mb-8 flex items-start rounded-3xl bg-ownLight p-8 dark:bg-ownLightBlue">
         {/* PICTURE PLACEHOLDER */}
-        <div className="mr-8 h-12 w-12 rounded-full bg-ownWhite" />
-        <div className="flex grow flex-col">WHAAAT</div>
+        <div className="mr-8 h-12 w-12 min-w-12 rounded-full bg-ownWhite" />
+        {/* NAME PLACEHOLDER */}
+        <div className="flex grow flex-col">
+          <div className="flex justify-between">
+            <span className="flex space-x-2">
+              <h1 className="flex flex-col font-semibold">NAME</h1>
+              <h3 className="mb-1 text-sm text-ownGrey">@tag</h3>
+            </span>
+            <button className="min-w-7">
+              <Image
+                alt="Settings"
+                src={"menu-meatball.svg"}
+                width={26}
+                height={26}
+              />
+            </button>
+          </div>
+          <h3 className="mb-4 text-sm text-ownGrey">
+            {relativeDateFormatter(new Date().getTime() - 5000)}
+          </h3>
+          <p className="mb-8">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat
+            asperiores molestiae nostrum ex atque a eum similique pariatur
+            veritatis, saepe consequuntur eveniet ducimus nihil est.
+          </p>
+
+          <div className="flex justify-between">
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>4</button>
+          </div>
+        </div>
       </div>
     </section>
   );
