@@ -40,7 +40,7 @@ export default function Login() {
             type="checkbox"
             className="cursor-pointer appearance-none rounded bg-ownLightBlue p-2 checked:bg-ownGreen"
           />
-          <span>Remember me</span>
+          <span className="select-none">Remember me</span>
         </label>
 
         <button
