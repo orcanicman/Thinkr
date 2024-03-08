@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Login() {
   return (
@@ -30,35 +31,38 @@ export default function Login() {
           placeholder="Email"
         />
 
-        <a className="text-right font-light" href="#">
-          Forgot password?
-        </a>
-
         <input
           type="password"
           className="mb-4 w-full rounded-lg bg-ownLightBlue px-5 py-4 placeholder:text-ownWhite"
           placeholder="Password"
         />
 
-        <label className="mb-4 flex w-full items-center space-x-2">
-          <input
-            type="checkbox"
-            className="cursor-pointer appearance-none rounded bg-ownLightBlue p-2 checked:bg-ownGreen"
-          />
-          <span className="select-none">Remember me</span>
+        <label className="mb-4 flex w-full items-center justify-between">
+          <div className="space-x-2">
+            <input
+              type="checkbox"
+              className="cursor-pointer appearance-none rounded bg-ownLightBlue p-2 checked:bg-ownGreen"
+            />
+            <span className="select-none">Remember me</span>
+          </div>
+
+          <Link className="text-ownGrey underline" href={"#"}>
+            Forgot password?
+          </Link>
         </label>
 
         <button
           type="submit"
-          className="w-full rounded-lg bg-ownGreen py-3 shadow-lg shadow-ownBlack hover:opacity-80"
+          className="mb-4 w-full rounded-lg bg-ownGreen py-3 shadow-lg shadow-ownBlack hover:opacity-80"
         >
           Login
         </button>
+
+        <Link href={"register"} className="self-start text-ownGreen underline">
+          No account yet? Sign up!
+        </Link>
       </form>
 
-      <a href="#" className="font-small text-center hover:underline">
-        No account yet? Sign up!
-      </a>
       <footer className="absolute bottom-0 -z-10 w-screen overflow-hidden sm:h-24 lg:h-60">
         <Image
           alt="LOL2"
