@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Register() {
   return (
-    <main className="flex max-h-screen min-h-screen flex-col overflow-hidden p-6 sm:items-center sm:p-0">
+    <main className="no-scrollbar flex max-h-screen min-h-screen flex-col overflow-auto p-6 sm:items-center sm:p-0">
       <header className="flex flex-col items-center">
         <Image
           alt="Logo"
@@ -56,7 +56,7 @@ export default function Register() {
         </Link>
       </form>
 
-      <footer className="absolute bottom-0 -z-10 w-screen overflow-hidden sm:h-24 lg:h-60">
+      <footer className="absolute bottom-0 -z-10 hidden w-screen overflow-hidden sm:h-24 lg:block lg:h-60">
         <Image
           alt="LOL2"
           src={"Thinkr-login-blueFooter.svg"}
