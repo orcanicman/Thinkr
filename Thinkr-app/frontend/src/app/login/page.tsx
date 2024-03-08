@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Login() {
   return (
-    <main className="flex max-h-screen min-h-screen flex-col overflow-auto no-scrollbar p-6 sm:items-center sm:p-0">
+    <main className="no-scrollbar flex max-h-screen min-h-screen flex-col overflow-auto p-6 sm:items-center sm:p-0">
       <header className="flex flex-col items-center">
         <Image
           alt="Logo"
@@ -29,6 +29,11 @@ export default function Login() {
           className="mb-4 w-full rounded-lg bg-ownLightBlue px-5 py-4 placeholder:text-ownWhite"
           placeholder="Email"
         />
+
+        <a className="text-right font-light" href="#">
+          Forgot password?
+        </a>
+
         <input
           type="password"
           className="mb-4 w-full rounded-lg bg-ownLightBlue px-5 py-4 placeholder:text-ownWhite"
@@ -51,6 +56,9 @@ export default function Login() {
         </button>
       </form>
 
+      <a href="#" className="font-small text-center hover:underline">
+        No account yet? Sign up!
+      </a>
       <footer className="absolute bottom-0 -z-10 w-screen overflow-hidden sm:h-24 lg:h-60">
         <Image
           alt="LOL2"
