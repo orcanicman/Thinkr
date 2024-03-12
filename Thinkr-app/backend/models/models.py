@@ -8,10 +8,28 @@ class Users(SQLModel, table=True):
     userId: Optional[int] = Field(default=None, primary_key=True)
     username: str
     email: str
-    hashed_password: str
-    first_name: Optional[str] = None
-    last_name: Optional[str] = None
+    hashedPassword: str
+    createdAt: datetime = Field(
+        sa_column=Column(
+            DateTime(timezone=True), server_default=func.now(), nullable=True
+        )
+    )
+    updatedAt: datetime = Field(
+        sa_column=Column(
+            DateTime(timezone=True), onupdate=func.now(), nullable=True
+        )
+    )
+    deleted: Optional[bool] = False
+
+class Profile(SQLModel, table=True):
+    profileId: Optional[int] = Field(default=None, primary_key=True)
+    userId: Optional[int] = Field(default=None, foreign_key="users.userId")
     biograpy: Optional[str] = None
+    profilePicture: Optional[str] = None
+    coverPicture: Optional[str] = None
+    firstName: Optional[str] = None
+    lastName: Optional[str] = None
+    displayName: Optional[str] = None
     createdAt: datetime = Field(
         sa_column=Column(
             DateTime(timezone=True), server_default=func.now(), nullable=True
@@ -28,8 +46,8 @@ class Posts(SQLModel, table=True):
     postId: Optional[int] = Field(default=None, primary_key=True)
     userId: Optional[int] = Field(default=None, foreign_key="users.userId")
     content: str
-    like_count: int = 0
-    rethink_count: int = 0
+    likeCount: int = 0
+    rethinkCount: int = 0
     createdAt: datetime = Field(
         sa_column=Column(
             DateTime(timezone=True), server_default=func.now(), nullable=True
