@@ -44,12 +44,38 @@ export const Post = () => {
         </p>
 
         <div className="flex justify-between">
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>4</button>
+          <PostButton amount={50}>
+            <Image alt="Like" src={"Like.svg"} width={12} height={10} />
+            <span className="hidden">Likes</span>
+          </PostButton>
+          <PostButton amount={50}>
+            <Image alt="Repost" src={"Repost.svg"} width={15} height={10} />
+            <span className="hidden">Reposts</span>
+          </PostButton>
+          <PostButton amount={50}>
+            <Image alt="Comment" src={"Comment.svg"} width={15} height={10} />
+            <span className="hidden">Comment</span>
+          </PostButton>
+          <PostButton amount={50}>
+            <Image alt="Share" src={"Share.svg"} width={10} height={10} />
+            <span className="hidden">Share</span>
+          </PostButton>
         </div>
       </div>
     </div>
+  );
+};
+
+const PostButton = ({
+  children,
+  amount,
+}: {
+  children: React.ReactNode;
+  amount: number;
+}) => {
+  return (
+    <button className="flex items-center space-x-2 rounded-xl border border-ownWhite px-4 py-2">
+      {children}
+    </button>
   );
 };

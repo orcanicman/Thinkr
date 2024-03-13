@@ -2,18 +2,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { InputBox } from "./InputBox";
 import { RecommendedPost } from "./RecommendedPost";
-import { relativeDateFormatter } from "@/helpers/relativeDateFormatter";
 import { Posts } from "./Posts";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col px-10 py-6">
-      <Header className="mb-10" />
+    <main className="flex flex-col px-10">
+      <Header className="sticky top-0 flex items-center bg-ownCream py-6 dark:bg-ownBlue" />
 
-      <section className="flex items-start">
-        <Profile className="relative hidden w-96 min-w-96 flex-col items-center overflow-hidden rounded-3xl bg-ownLight xl:flex dark:bg-ownLightBlue" />
+      <section className="flex">
+        <Profile className="sticky top-[106px] hidden w-96 min-w-96 flex-col items-center self-start overflow-hidden rounded-3xl bg-ownLight xl:flex dark:bg-ownLightBlue" />
         <Content className="mx-8 grow" />
-        <Recommended className="hidden w-96 min-w-96 flex-col rounded-3xl bg-ownLight lg:flex dark:bg-ownLightBlue" />
+        <Recommended className="sticky top-[106px] hidden flex-col self-start rounded-3xl bg-ownLight lg:flex lg:w-64 lg:min-w-64 xl:w-96 xl:min-w-96 dark:bg-ownLightBlue" />
       </section>
     </main>
   );
@@ -21,55 +20,66 @@ export default function Home() {
 
 const Header = ({ className }: { className?: string }) => {
   return (
-    <header className={className}>
-      <section className="flex items-center">
-        <section className="hidden w-96 min-w-96 items-center justify-between space-x-8 xl:flex">
-          <Link href={"home"}>
-            <Image alt="Logo" src={"Thinkr-logo.svg"} width={58} height={58} />
-          </Link>
-
-          <input
-            type="text"
-            placeholder="# Explore"
-            className="h-12 grow rounded-xl bg-ownLight px-4 py-1 font-bold dark:bg-ownLightBlue"
+    <header className={`${className}`}>
+      <section className="hidden w-96 min-w-96 items-center justify-between space-x-8 xl:flex">
+        <Link href={"home"}>
+          <Image
+            alt="Logo"
+            src={"Thinkr-logo.svg"}
+            width={58}
+            height={58}
+            className="hidden dark:block"
           />
-        </section>
+          <Image
+            alt="Logo"
+            src={"Thinkr-logo-dark.svg"}
+            width={58}
+            height={58}
+            className="block dark:hidden"
+          />
+        </Link>
 
-        <section className="mx-8 grow justify-between text-2xl font-bold">
-          Home
-        </section>
+        <input
+          type="text"
+          placeholder="# Explore"
+          className="h-12 grow rounded-xl bg-ownLight px-4 py-1 font-bold dark:bg-ownLightBlue"
+        />
+      </section>
 
-        <section className="hidden w-96 min-w-96 items-center justify-between space-x-8 lg:flex">
-          <button className="flex h-12 grow items-center rounded-3xl bg-ownLight dark:bg-ownLightBlue">
-            {/* IMAGE PLACEHOLDER */}
-            <div className="m-1 h-10 w-10 rounded-full bg-ownBlack" />
-            {/* IMAGE PLACEHOLDER */}
+      <section className="mx-8 grow justify-between text-2xl font-bold">
+        Home
+      </section>
 
-            {/* NAME PLACEHOLDER */}
-            <div className="mx-2 grow text-start">NAME</div>
-            {/* NAME PLACEHOLDER */}
+      <section className="hidden items-center justify-between space-x-8 lg:flex lg:w-64 lg:min-w-64 xl:w-96 xl:min-w-96">
+        <button className="flex h-12 grow items-center rounded-3xl bg-ownLight dark:bg-ownLightBlue">
+          {/* IMAGE PLACEHOLDER */}
+          <div className="m-1 h-10 w-10 rounded-full bg-ownBlack" />
+          {/* IMAGE PLACEHOLDER */}
 
-            <div
-              className="mx-4 h-0 w-0 rounded-full border-b-ownBlack border-l-ownTransparent border-r-ownTransparent border-t-ownTransparent dark:border-b-ownCream"
-              style={{
-                width: "0px",
-                height: "0px",
-                borderStyle: "solid",
-                borderWidth: "0 7.5px 10px 7.5px",
-                transform: "rotate(180deg)",
-              }}
-            />
-          </button>
-          <button>
-            <Image
-              alt="Menu"
-              src={"9-dot-menu.svg"}
-              width={30}
-              height={30}
-              className="contrast-0 dark:contrast-100"
-            />
-          </button>
-        </section>
+          {/* NAME PLACEHOLDER */}
+          <div className="mx-2 grow text-start">NAME</div>
+          {/* NAME PLACEHOLDER */}
+
+          <div
+            className="mx-4 h-0 w-0 rounded-full border-b-ownBlack border-l-ownTransparent border-r-ownTransparent border-t-ownTransparent dark:border-b-ownCream"
+            style={{
+              width: "0px",
+              height: "0px",
+              borderStyle: "solid",
+              borderWidth: "0 7.5px 10px 7.5px",
+              transform: "rotate(180deg)",
+            }}
+          />
+        </button>
+        <button>
+          <Image
+            alt="Menu"
+            src={"9-dot-menu.svg"}
+            width={30}
+            height={30}
+            className="contrast-0 dark:contrast-100"
+          />
+        </button>
       </section>
     </header>
   );

@@ -15,7 +15,7 @@ export const RecommendedPost = ({
   return (
     <Link href={link} className="mb-4 flex w-full justify-between space-x-2">
       <div className="">
-        <h2 className="mb-1 max-w-60 overflow-hidden overflow-ellipsis whitespace-nowrap hover:underline">
+        <h2 className="mb-1 overflow-hidden overflow-ellipsis whitespace-nowrap hover:underline lg:max-w-32 xl:max-w-60">
           {title}
         </h2>
         <h3 className="text-ownGrey">

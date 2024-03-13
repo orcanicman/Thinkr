@@ -15,10 +15,8 @@ export const InputBox = () => {
             e.currentTarget.style.height = e.currentTarget.scrollHeight + "px";
           }}
         />
-        <div className="flex justify-between">
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
+        <div className="flex w-full">
+          <button className="ml-auto rounded-xl border px-4 py-2">Send</button>
         </div>
       </div>
     </div>
