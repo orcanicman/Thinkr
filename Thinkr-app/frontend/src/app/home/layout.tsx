@@ -9,7 +9,7 @@ export default function HomeLayout({
 }>) {
   return (
     <main className="flex flex-col px-10">
-      <Header className="sticky top-0 flex items-center bg-ownCream py-6 dark:bg-ownBlue" />
+      <Header className="sticky top-0 z-10 flex items-center bg-ownCream py-6 dark:bg-ownBlue" />
 
       <section className="flex">
         <Profile className="sticky top-[106px] hidden w-96 min-w-96 flex-col items-center self-start overflow-hidden rounded-3xl bg-ownLight xl:flex dark:bg-ownLightBlue" />
