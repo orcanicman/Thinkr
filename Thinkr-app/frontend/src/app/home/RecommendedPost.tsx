@@ -29,7 +29,7 @@ export const RecommendedPost = ({
       <button className="min-w-7">
         <Image
           alt="Settings"
-          src={"menu-meatball.svg"}
+          src={"/menu-meatball.svg"}
           width={26}
           height={26}
         />
