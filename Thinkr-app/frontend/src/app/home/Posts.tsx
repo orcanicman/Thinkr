@@ -24,7 +24,7 @@ export const Post = () => {
           <section className="grow">
             <div className="flex justify-between">
               <Link
-                href={"/TESTUSER"}
+                href={"/home/TESTUSER"}
                 className="flex items-baseline space-x-2 hover:underline"
               >
                 <h1 className="flex flex-col font-semibold">NAME</h1>
