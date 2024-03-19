@@ -1,8 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { register } from "../lib/actions";
+import { getSession } from "../lib/session";
+import { redirect } from "next/navigation";
 
-export default function Register() {
+export default async function Register() {
+  const session = await getSession();
+  if (session) redirect("/home");
   return (
     <main className="no-scrollbar flex max-h-screen min-h-screen flex-col overflow-auto p-6 sm:items-center sm:p-0">
       <header className="flex flex-col items-center">
@@ -18,7 +22,14 @@ export default function Register() {
         <h6 className="font-light">&ldquo;Speak your mind&rdquo;</h6>
       </header>
 
-      <form className="flex flex-col sm:w-96 sm:items-center" action={register}>
+      <form
+        className="flex flex-col sm:w-96 sm:items-center"
+        action={async (formData) => {
+          "use server";
+          await register(formData);
+          redirect("/login");
+        }}
+      >
         <h1 className="my-6 text-4xl font-bold sm:my-10 sm:text-7xl">
           Register
         </h1>

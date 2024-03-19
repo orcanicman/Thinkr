@@ -1,12 +1,16 @@
 import Link from "next/link";
 import Image from "next/image";
 import { RecommendedPost } from "./RecommendedPost";
+import { getSession } from "../lib/session";
+import { redirect } from "next/navigation";
 
-export default function HomeLayout({
+export default async function HomeLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await getSession();
+  if (session === null) redirect("/login");
   return (
     <main className="flex flex-col px-10">
       <Header className="sticky top-0 z-10 flex items-center bg-ownCream py-6 dark:bg-ownBlue" />

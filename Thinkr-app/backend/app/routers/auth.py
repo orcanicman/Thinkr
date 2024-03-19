@@ -51,7 +51,6 @@ async def register(body: RegisterBody, response: Response):
         session.refresh(user)
 
         send_refresh_token(response, create_refresh_token(user))
-
         return {"access_token": create_access_token(user)}
 
 

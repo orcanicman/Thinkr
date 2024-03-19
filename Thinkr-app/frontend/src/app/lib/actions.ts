@@ -1,11 +1,11 @@
 "use server";
 
-import { AuthResponse, User } from "@/types/models";
+import { AuthResponse } from "@/types/models";
 import axios from "axios";
+import { cookies } from "next/headers";
 
 export const login = async (formData: FormData) => {
   try {
-    console.log("LOGIN CALLED!");
     const body: { email: string; password: string } = {
       email: "",
       password: "",
@@ -20,13 +20,21 @@ export const login = async (formData: FormData) => {
       if (key === "password") body.password = data;
     });
 
-    const res = await axios.post<typeof body, { data: AuthResponse }>(
+    const res = await axios.post<AuthResponse>(
       "http://localhost:8000/auth/login",
       body,
       {
         withCredentials: true,
       },
     );
+
+    if (!res.headers["set-cookie"]?.[0]) throw Error("Cookie error");
+
+    const cookieValue = res.headers["set-cookie"][0]
+      .split("jid=")[1]
+      .split(";")[0];
+
+    cookies().set("jid", cookieValue, { httpOnly: true });
   } catch (error) {
     console.log(error);
   }
@@ -51,15 +59,21 @@ export const register = async (formData: FormData) => {
       if (key === "username") body.username = data;
     });
 
-    const res = await axios.post<typeof body, { data: AuthResponse }>(
+    const res = await axios.post<AuthResponse>(
       "http://localhost:8000/auth/register",
       body,
       {
         withCredentials: true,
       },
     );
-
     console.log(res);
+    if (!res.headers["set-cookie"]?.[0]) throw Error("Cookie error");
+
+    const cookieValue = res.headers["set-cookie"][0]
+      .split("jid=")[1]
+      .split(";")[0];
+
+    cookies().set("jid", cookieValue, { httpOnly: true });
   } catch (error) {
     console.log(error);
   }
