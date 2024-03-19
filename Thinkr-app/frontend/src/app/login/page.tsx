@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { login } from "../lib/actions";
 
 export default function Login() {
   return (
@@ -17,7 +18,7 @@ export default function Login() {
         <h6 className="font-light">&ldquo;Speak your mind&rdquo;</h6>
       </header>
 
-      <form className="flex flex-col sm:w-96 sm:items-center">
+      <form className="flex flex-col sm:w-96 sm:items-center" action={login}>
         <h1 className="my-6 text-6xl font-bold sm:my-10 sm:text-7xl">
           Sign in
         </h1>
@@ -29,12 +30,16 @@ export default function Login() {
           type="email"
           className="mb-4 w-full rounded-lg bg-ownLightBlue px-5 py-4 placeholder:text-ownWhite"
           placeholder="Email"
+          name="email"
+          required
         />
 
         <input
           type="password"
           className="mb-4 w-full rounded-lg bg-ownLightBlue px-5 py-4 placeholder:text-ownWhite"
           placeholder="Password"
+          name="password"
+          required
         />
 
         <label className="mb-4 flex w-full items-center justify-between">

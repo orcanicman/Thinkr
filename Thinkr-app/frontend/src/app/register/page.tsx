@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { register } from "../lib/actions";
 
 export default function Register() {
   return (
@@ -17,7 +18,7 @@ export default function Register() {
         <h6 className="font-light">&ldquo;Speak your mind&rdquo;</h6>
       </header>
 
-      <form className="flex flex-col sm:w-96 sm:items-center">
+      <form className="flex flex-col sm:w-96 sm:items-center" action={register}>
         <h1 className="my-6 text-4xl font-bold sm:my-10 sm:text-7xl">
           Register
         </h1>
@@ -29,16 +30,22 @@ export default function Register() {
           type="text"
           className="mb-4 w-full rounded-lg bg-ownLightBlue px-5 py-4 placeholder:text-ownWhite"
           placeholder="Username"
+          name="username"
+          required
         />
         <input
           type="email"
           className="mb-4 w-full rounded-lg bg-ownLightBlue px-5 py-4 placeholder:text-ownWhite"
           placeholder="Email"
+          name="email"
+          required
         />
         <input
           type="password"
           className="mb-4 w-full rounded-lg bg-ownLightBlue px-5 py-4 placeholder:text-ownWhite"
           placeholder="Password"
+          name="password"
+          required
         />
 
         <button
