@@ -1,3 +1,4 @@
+from fastapi import Response
 from jwt import encode
 from datetime import datetime, timezone, timedelta
 
@@ -21,3 +22,7 @@ def create_refresh_token(user: User) -> str:
             "userId": user.userId
         }, 
         secret)
+
+
+def send_refresh_token(response: Response, token: str):
+    return response.set_cookie("jid", token, httponly=True)

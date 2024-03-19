@@ -1,6 +1,6 @@
 "use server";
 
-import { User } from "@/types/models";
+import { AuthResponse, User } from "@/types/models";
 import axios from "axios";
 
 export const login = async (formData: FormData) => {
@@ -20,15 +20,13 @@ export const login = async (formData: FormData) => {
       if (key === "password") body.password = data;
     });
 
-    const res = await axios.post<typeof body, { data: User }>(
+    const res = await axios.post<typeof body, { data: AuthResponse }>(
       "http://localhost:8000/auth/login",
       body,
       {
         withCredentials: true,
       },
     );
-
-    console.log(res);
   } catch (error) {
     console.log(error);
   }
@@ -53,7 +51,7 @@ export const register = async (formData: FormData) => {
       if (key === "username") body.username = data;
     });
 
-    const res = await axios.post<typeof body, { data: User }>(
+    const res = await axios.post<typeof body, { data: AuthResponse }>(
       "http://localhost:8000/auth/register",
       body,
       {

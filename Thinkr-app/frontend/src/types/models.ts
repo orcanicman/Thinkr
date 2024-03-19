@@ -9,3 +9,8 @@ export type User = {
   createdAt: string;
   updatedAt: null | string;
 };
+
+export type AuthResponse = {
+  access_token: string;
+  refresh_token: string;
+};
