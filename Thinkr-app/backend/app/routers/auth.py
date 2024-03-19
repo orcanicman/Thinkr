@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 from sqlmodel import Session, select
+from app.dependencies import create_access_token, create_refresh_token
 from app.models.models import User
 from argon2 import PasswordHasher
 from ..utils.database import engine
@@ -24,8 +25,8 @@ async def login(body: LoginBody):
         # Verify password
         try: 
             hasher.verify(user.password, body.password)
-            # TODO: return JWT
-            return user
+            return {"access_token": create_access_token(user), 
+                    "refresh_token": create_refresh_token(user)}
         except:
             return {"Unauthenticated"}
 
@@ -44,5 +45,5 @@ async def register(body: RegisterBody):
         session.commit()
         session.refresh(user)
 
-        # TODO: return JWT
-        return user
+        return {"access_token": create_access_token(user), 
+                "refresh_token": create_refresh_token(user)}
