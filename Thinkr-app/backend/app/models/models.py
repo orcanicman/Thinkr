@@ -32,6 +32,7 @@ class Profile(SQLModel, table=True):
     profileId: str = Field(default=CUID_GENERATOR.generate(), primary_key=True)
     userId: str = Field(foreign_key="user.userId")
     displayName: str
+    bio: str
     banner: str
     photo: str
     createdAt: datetime = Field(
