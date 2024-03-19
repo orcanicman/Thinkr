@@ -3,22 +3,22 @@ from sqlmodel import Session, select
 from app.models.models import User
 from ..utils.database import engine
 
-router = APIRouter()
+router = APIRouter(prefix="/users")
 
 # User routes
-@router.get("/users/")
+@router.get("/")
 async def read_users():
     with Session(engine) as session:
         users = session.exec(select(User)).all()
         return users
 
-@router.get("/users/{user_id}")
+@router.get("/{user_id}")
 async def read_user(user_id: str):
     with Session(engine) as session:
         user = session.exec(select(User).where(User.userId == user_id)).first()
         return user
 
-@router.post("/users/")
+@router.post("/")
 async def create_user(user: User):
     # TODO: Validate body
     with Session(engine) as session:
@@ -27,7 +27,7 @@ async def create_user(user: User):
         session.refresh(user)
         return user
 
-@router.put("/users/{user_id}")
+@router.put("/{user_id}")
 async def update_user(user_id: str, user: User):
     with Session(engine) as session:
         user_ = session.exec(select(User).where(User.userId == user_id)).first()
@@ -38,7 +38,7 @@ async def update_user(user_id: str, user: User):
         session.refresh(user_)
         return user_
 
-@router.delete("/users/{user_id}")
+@router.delete("/{user_id}")
 async def delete_user(user_id: str):
     with Session(engine) as session:
         user = session.exec(select(User).where(User.userId == user_id)).first()
