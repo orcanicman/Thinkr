@@ -5,4 +5,4 @@
 2. Run the setup script to setup a local database:
    `python3 ./setup.py`
 3. Run the server:
-   `uvicorn app.main.app --reload`
+   `uvicorn app.main:app --reload`

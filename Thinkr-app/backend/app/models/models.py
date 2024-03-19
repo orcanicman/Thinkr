@@ -12,7 +12,7 @@ class User(SQLModel, table=True):
     userId: str = Field(default=CUID_GENERATOR.generate(), primary_key=True)
     profileId: Optional[str] = Field(default=None, foreign_key="profile.profileId")
     username: str
-    email: str
+    email: str = Field(unique=True)
     password:str
     verified:bool = False
     deleted:bool = False
@@ -30,8 +30,9 @@ class User(SQLModel, table=True):
 
 class Profile(SQLModel, table=True):
     profileId: str = Field(default=CUID_GENERATOR.generate(), primary_key=True)
-    userId: str = Field(foreign_key="user.userId")
+    userId: str = Field(foreign_key="user.userId", unique=True)
     displayName: str
+    bio: str
     banner: str
     photo: str
     createdAt: datetime = Field(
