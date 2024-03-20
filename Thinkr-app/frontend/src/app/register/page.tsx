@@ -3,10 +3,14 @@ import Link from "next/link";
 import { register } from "../lib/actions";
 import { getSession } from "../lib/session";
 import { redirect } from "next/navigation";
+import { getUser } from "../lib/user";
 
 export default async function Register() {
   const session = await getSession();
-  if (session) redirect("/home");
+  if (session) {
+    const user = await getUser(session);
+    if (user) redirect("/home");
+  }
   return (
     <main className="no-scrollbar flex max-h-screen min-h-screen flex-col overflow-auto p-6 sm:items-center sm:p-0">
       <header className="flex flex-col items-center">

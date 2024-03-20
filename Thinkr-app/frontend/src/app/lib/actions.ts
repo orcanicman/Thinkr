@@ -1,8 +1,9 @@
 "use server";
 
 import { AuthResponse } from "@/types/models";
-import axios from "axios";
 import { cookies } from "next/headers";
+import { FastApi } from "./FastApi";
+import { getSession } from "./session";
 
 export const login = async (formData: FormData) => {
   try {
@@ -20,13 +21,7 @@ export const login = async (formData: FormData) => {
       if (key === "password") body.password = data;
     });
 
-    const res = await axios.post<AuthResponse>(
-      "http://localhost:8000/auth/login",
-      body,
-      {
-        withCredentials: true,
-      },
-    );
+    const res = await FastApi.post<AuthResponse>("/auth/login", body);
 
     if (!res.headers["set-cookie"]?.[0]) throw Error("Cookie error");
 
@@ -35,6 +30,7 @@ export const login = async (formData: FormData) => {
       .split(";")[0];
 
     cookies().set("jid", cookieValue, { httpOnly: true });
+    cookies().set("auth", res.data.access_token);
   } catch (error) {
     console.log(error);
   }
@@ -42,7 +38,6 @@ export const login = async (formData: FormData) => {
 
 export const register = async (formData: FormData) => {
   try {
-    console.log("REGISTER CALLED!");
     const body: { email: string; password: string; username: string } = {
       email: "",
       password: "",
@@ -59,14 +54,8 @@ export const register = async (formData: FormData) => {
       if (key === "username") body.username = data;
     });
 
-    const res = await axios.post<AuthResponse>(
-      "http://localhost:8000/auth/register",
-      body,
-      {
-        withCredentials: true,
-      },
-    );
-    console.log(res);
+    const res = await FastApi.post<AuthResponse>("/auth/register", body);
+
     if (!res.headers["set-cookie"]?.[0]) throw Error("Cookie error");
 
     const cookieValue = res.headers["set-cookie"][0]
@@ -74,6 +63,24 @@ export const register = async (formData: FormData) => {
       .split(";")[0];
 
     cookies().set("jid", cookieValue, { httpOnly: true });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const createProfile = async (formData: FormData) => {
+  try {
+    const userId = await getSession();
+    const body = {
+      userId,
+      displayName: formData.get("displayName"),
+      bio: formData.get("bio"),
+      banner: "",
+      photo: "",
+    };
+
+    const res = await FastApi.post("/profiles", body);
+    // TODO: do something with response.
   } catch (error) {
     console.log(error);
   }

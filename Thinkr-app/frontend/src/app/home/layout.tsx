@@ -3,6 +3,7 @@ import Image from "next/image";
 import { RecommendedPost } from "./RecommendedPost";
 import { getSession } from "../lib/session";
 import { redirect } from "next/navigation";
+import { getProfile, getUser } from "../lib/user";
 
 export default async function HomeLayout({
   children,
@@ -10,13 +11,23 @@ export default async function HomeLayout({
   children: React.ReactNode;
 }>) {
   const session = await getSession();
-  if (session === null) redirect("/login");
+  if (!session) redirect("/login");
+
+  const user = await getUser(session);
+  if (!user) redirect("/login");
+
+  const profile = await getProfile(user.userId);
+  if (!profile) redirect("/finish-setting-up");
+
   return (
     <main className="flex flex-col px-10">
       <Header className="sticky top-0 z-10 flex items-center bg-ownCream py-6 dark:bg-ownBlue" />
 
       <section className="flex">
-        <Profile className="sticky top-[106px] hidden w-96 min-w-96 flex-col items-center self-start overflow-hidden rounded-3xl bg-ownLight xl:flex dark:bg-ownLightBlue" />
+        <Profile
+          tag={user.username}
+          className="sticky top-[106px] hidden w-96 min-w-96 flex-col items-center self-start overflow-hidden rounded-3xl bg-ownLight xl:flex dark:bg-ownLightBlue"
+        />
         <Content className="mx-8 grow">{children}</Content>
         <Recommended className="sticky top-[106px] hidden flex-col self-start rounded-3xl bg-ownLight lg:flex lg:w-64 lg:min-w-64 xl:w-96 xl:min-w-96 dark:bg-ownLightBlue" />
       </section>
@@ -91,7 +102,7 @@ const Header = ({ className }: { className?: string }) => {
   );
 };
 
-const Profile = ({ className }: { className?: string }) => {
+const Profile = ({ className, tag }: { className?: string; tag: string }) => {
   return (
     <section className={className}>
       {/* topPart */}
@@ -107,7 +118,7 @@ const Profile = ({ className }: { className?: string }) => {
         {/* NAME PLACEHOLDER */}
         <h2 className="text-lg font-bold">NAME</h2>
         {/* TAG PLACEHOLDER */}
-        <h3 className="mb-1 text-ownGrey">@tag</h3>
+        <h3 className="mb-1 text-ownGrey">@{tag}</h3>
         <p className="text-center font-medium">
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Atque
           exercitationem optio quisquam?
