@@ -1,20 +1,10 @@
 import Image from "next/image";
-import Link from "next/link";
-import { createProfile, login } from "../lib/actions";
-import { getSession } from "../lib/session";
+import { createProfile } from "../lib/actions";
 import { redirect } from "next/navigation";
-import { getProfile, getUser } from "../lib/user";
+import { routeGuard } from "../lib/routeGuard";
 
 export default async function FinishSettingUpPage() {
-  const session = await getSession();
-  if (!session) redirect("/login");
-
-  const user = await getUser(session);
-  if (!user) redirect("/login");
-
-  const profile = await getProfile(user.userId);
-
-  if (profile) redirect("/home");
+  const { user, profile } = await routeGuard();
 
   return (
     <main className="no-scrollbar flex max-h-screen min-h-screen flex-col overflow-auto p-6 sm:items-center sm:p-0">

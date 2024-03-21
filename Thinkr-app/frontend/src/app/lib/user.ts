@@ -1,4 +1,4 @@
-import { User } from "@/types/models";
+import { Profile, User } from "@/types/models";
 import { FastApi } from "./FastApi";
 
 export const getUser = async (userId: string): Promise<User> => {
@@ -6,7 +6,7 @@ export const getUser = async (userId: string): Promise<User> => {
   return res.data;
 };
 
-export const getProfile = async (userId: string): Promise<any> => {
-  const res = await FastApi.get(`/profiles/${userId}`);
+export const getProfile = async (userId: string): Promise<Profile> => {
+  const res = await FastApi.get<Profile>(`/profiles/${userId}`);
   return res.data;
 };

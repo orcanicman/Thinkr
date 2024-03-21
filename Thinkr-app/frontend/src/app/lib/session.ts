@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { decode } from "jsonwebtoken";
 
 // should probably rename to something like: getUserId
-export const getSession = async () => {
+export const getUserIdFromCookies = async () => {
   const session = cookies().get("jid")?.value;
   if (!session) return null;
 

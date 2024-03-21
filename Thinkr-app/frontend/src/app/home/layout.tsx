@@ -1,23 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { RecommendedPost } from "./RecommendedPost";
-import { getSession } from "../lib/session";
-import { redirect } from "next/navigation";
-import { getProfile, getUser } from "../lib/user";
+import { routeGuard } from "../lib/routeGuard";
 
 export default async function HomeLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getSession();
-  if (!session) redirect("/login");
-
-  const user = await getUser(session);
-  if (!user) redirect("/login");
-
-  const profile = await getProfile(user.userId);
-  if (!profile) redirect("/finish-setting-up");
+  const data = await routeGuard("home");
 
   return (
     <main className="flex flex-col px-10">
@@ -25,7 +16,13 @@ export default async function HomeLayout({
 
       <section className="flex">
         <Profile
-          tag={user.username}
+          profile={{
+            bio: data ? data.profile.bio : "",
+            banner: data ? data.profile.banner : "",
+            displayName: data ? data.profile.displayName : "",
+            photo: data ? data.profile.photo : "",
+            tag: data ? data.user.username : "",
+          }}
           className="sticky top-[106px] hidden w-96 min-w-96 flex-col items-center self-start overflow-hidden rounded-3xl bg-ownLight xl:flex dark:bg-ownLightBlue"
         />
         <Content className="mx-8 grow">{children}</Content>
@@ -102,27 +99,52 @@ const Header = ({ className }: { className?: string }) => {
   );
 };
 
-const Profile = ({ className, tag }: { className?: string; tag: string }) => {
+const Profile = ({
+  className,
+  profile,
+}: {
+  className?: string;
+  profile: {
+    tag: string;
+    banner: string;
+    photo: string;
+    displayName: string;
+    bio: string;
+  };
+}) => {
   return (
     <section className={className}>
       {/* topPart */}
       <div className="relative mb-6 flex w-full flex-col items-center">
         {/* BANNER PLACEHOLDER */}
-        <div className="mb-4 h-24 w-full bg-ownBlack" />
+        {profile.banner ? (
+          <Image
+            src={profile.banner}
+            alt="banner"
+            className="mb-4 h-24 w-full"
+          />
+        ) : (
+          <div className="mb-4 h-24 w-full bg-ownBlack" />
+        )}
 
         {/* Picture PLACEHOLDER */}
-        <div className="absolute mt-12 h-24 w-24 rounded-full bg-ownWhite" />
+        {profile.photo ? (
+          <Image
+            src={profile.photo}
+            alt="profile picture"
+            className="absolute mt-12 h-24 w-24 rounded-full bg-ownWhite"
+          />
+        ) : (
+          <div className="absolute mt-12 h-24 w-24 rounded-full bg-ownWhite" />
+        )}
       </div>
 
       <div className="flex flex-col items-center p-6">
         {/* NAME PLACEHOLDER */}
-        <h2 className="text-lg font-bold">NAME</h2>
+        <h2 className="text-lg font-bold">{profile.displayName}</h2>
         {/* TAG PLACEHOLDER */}
-        <h3 className="mb-1 text-ownGrey">@{tag}</h3>
-        <p className="text-center font-medium">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Atque
-          exercitationem optio quisquam?
-        </p>
+        <h3 className="mb-1 text-ownGrey">@{profile.tag}</h3>
+        <p className="text-center font-medium">{profile.bio}</p>
       </div>
 
       <div className="flex w-full border-b border-t border-ownCream dark:border-ownLighterBlue">
@@ -138,7 +160,7 @@ const Profile = ({ className, tag }: { className?: string; tag: string }) => {
       </div>
 
       <Link
-        href={`/home/TESTUSER`}
+        href={`/home/${profile.tag}`}
         className="w-full p-4 text-center text-ownGreen hover:underline"
       >
         Show profile

@@ -1,16 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { register } from "../lib/actions";
-import { getSession } from "../lib/session";
 import { redirect } from "next/navigation";
-import { getUser } from "../lib/user";
+import { routeGuard } from "../lib/routeGuard";
 
 export default async function Register() {
-  const session = await getSession();
-  if (session) {
-    const user = await getUser(session);
-    if (user) redirect("/home");
-  }
+  await routeGuard("login");
+
   return (
     <main className="no-scrollbar flex max-h-screen min-h-screen flex-col overflow-auto p-6 sm:items-center sm:p-0">
       <header className="flex flex-col items-center">

@@ -3,7 +3,7 @@
 import { AuthResponse } from "@/types/models";
 import { cookies } from "next/headers";
 import { FastApi } from "./FastApi";
-import { getSession } from "./session";
+import { getUserIdFromCookies } from "./session";
 
 export const login = async (formData: FormData) => {
   try {
@@ -70,7 +70,7 @@ export const register = async (formData: FormData) => {
 
 export const createProfile = async (formData: FormData) => {
   try {
-    const userId = await getSession();
+    const userId = await getUserIdFromCookies();
     const body = {
       userId,
       displayName: formData.get("displayName"),
