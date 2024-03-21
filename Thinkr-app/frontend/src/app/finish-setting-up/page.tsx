@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { routeGuard } from "../lib/routeGuard";
 
 export default async function FinishSettingUpPage() {
-  const { user, profile } = await routeGuard();
+  await routeGuard("finish-setting-up");
 
   return (
     <main className="no-scrollbar flex max-h-screen min-h-screen flex-col overflow-auto p-6 sm:items-center sm:p-0">
