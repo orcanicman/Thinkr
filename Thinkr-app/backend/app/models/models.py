@@ -10,7 +10,6 @@ CUID_GENERATOR = Cuid()
 
 class User(SQLModel, table=True):
     userId: str = Field(default=CUID_GENERATOR.generate(), primary_key=True)
-    profileId: Optional[str] = Field(default=None, foreign_key="profile.profileId")
     username: str
     email: str = Field(unique=True)
     password:str
