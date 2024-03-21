@@ -2,26 +2,36 @@ import Link from "next/link";
 import Image from "next/image";
 import { RecommendedPost } from "./RecommendedPost";
 import { routeGuard } from "../lib/routeGuard";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Home",
+};
 
 export default async function HomeLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const data = await routeGuard("home");
+  const data = (await routeGuard("home")) as NonNullable<
+    Awaited<ReturnType<typeof routeGuard>>
+  >;
 
   return (
     <main className="flex flex-col px-10">
-      <Header className="sticky top-0 z-10 flex items-center bg-ownCream py-6 dark:bg-ownBlue" />
+      <Header
+        profile={{
+          ...data.profile,
+          username: data.user.username,
+        }}
+        className="sticky top-0 z-10 flex items-center bg-ownCream py-6 dark:bg-ownBlue"
+      />
 
       <section className="flex">
         <Profile
           profile={{
-            bio: data ? data.profile.bio : "",
-            banner: data ? data.profile.banner : "",
-            displayName: data ? data.profile.displayName : "",
-            photo: data ? data.profile.photo : "",
-            tag: data ? data.user.username : "",
+            ...data.profile,
+            username: data.user.username,
           }}
           className="sticky top-[106px] hidden w-96 min-w-96 flex-col items-center self-start overflow-hidden rounded-3xl bg-ownLight xl:flex dark:bg-ownLightBlue"
         />
@@ -32,7 +42,19 @@ export default async function HomeLayout({
   );
 }
 
-const Header = ({ className }: { className?: string }) => {
+const Header = ({
+  className,
+  profile,
+}: {
+  className?: string;
+  profile: {
+    username: string;
+    banner: string;
+    photo: string;
+    displayName: string;
+    bio: string;
+  };
+}) => {
   return (
     <header className={`${className}`}>
       <section className="hidden w-96 min-w-96 items-center justify-between space-x-8 xl:flex">
@@ -66,13 +88,13 @@ const Header = ({ className }: { className?: string }) => {
 
       <section className="hidden items-center justify-between space-x-8 lg:flex lg:w-64 lg:min-w-64 xl:w-96 xl:min-w-96">
         <button className="flex h-12 grow items-center rounded-3xl bg-ownLight dark:bg-ownLightBlue">
-          {/* IMAGE PLACEHOLDER */}
-          <div className="m-1 h-10 w-10 rounded-full bg-ownBlack" />
-          {/* IMAGE PLACEHOLDER */}
+          {profile.photo ? (
+            <Image src={profile.photo} alt="profile picture" />
+          ) : (
+            <div className="m-1 h-10 w-10 rounded-full bg-ownWhite" />
+          )}
 
-          {/* NAME PLACEHOLDER */}
-          <div className="mx-2 grow text-start">NAME</div>
-          {/* NAME PLACEHOLDER */}
+          <div className="mx-2 grow text-start">{profile.displayName}</div>
 
           <div
             className="mx-4 h-0 w-0 rounded-full border-b-ownBlack border-l-ownTransparent border-r-ownTransparent border-t-ownTransparent dark:border-b-ownCream"
@@ -105,7 +127,7 @@ const Profile = ({
 }: {
   className?: string;
   profile: {
-    tag: string;
+    username: string;
     banner: string;
     photo: string;
     displayName: string;
@@ -143,7 +165,7 @@ const Profile = ({
         {/* NAME PLACEHOLDER */}
         <h2 className="text-lg font-bold">{profile.displayName}</h2>
         {/* TAG PLACEHOLDER */}
-        <h3 className="mb-1 text-ownGrey">@{profile.tag}</h3>
+        <h3 className="mb-1 text-ownGrey">@{profile.username}</h3>
         <p className="text-center font-medium">{profile.bio}</p>
       </div>
 
@@ -160,7 +182,7 @@ const Profile = ({
       </div>
 
       <Link
-        href={`/home/${profile.tag}`}
+        href={`/home/${profile.username}`}
         className="w-full p-4 text-center text-ownGreen hover:underline"
       >
         Show profile
