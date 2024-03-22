@@ -5,9 +5,8 @@ from sqlmodel import Session, select
 from app.dependencies import create_access_token, create_refresh_token, send_refresh_token
 from app.models.models import User
 from argon2 import PasswordHasher
-from jwt import decode
 
-from ..dependencies import secret
+from app.utils.is_auth import decode_user_jwt
 from ..utils.database import engine
 
 router = APIRouter(prefix="/auth")
@@ -58,8 +57,8 @@ async def register(body: RegisterBody, response: Response):
 async def get_new_token(jid: Annotated[str, Cookie()], response: Response):
     with Session(engine) as session:
         try:
-            decoded = decode(jid, secret, algorithms=["HS256"])
-            statement = select(User).where(User.userId == decoded["userId"])
+            userId = decode_user_jwt(jid)
+            statement = select(User).where(User.userId == userId)
             user = session.exec(statement).first()
                 
             send_refresh_token(response, create_refresh_token(user))
