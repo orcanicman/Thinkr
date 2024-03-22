@@ -1,5 +1,3 @@
-from typing import Optional
-
 from datetime import datetime
 
 from sqlmodel import Field, SQLModel, create_engine, Column, DateTime, func
@@ -9,7 +7,7 @@ from cuid2 import Cuid
 CUID_GENERATOR = Cuid()
 
 class User(SQLModel, table=True):
-    userId: str = Field(default=CUID_GENERATOR.generate(), primary_key=True)
+    userId: str = Field(default_factory=CUID_GENERATOR.generate, primary_key=True)
     username: str
     email: str = Field(unique=True)
     password:str
@@ -28,7 +26,7 @@ class User(SQLModel, table=True):
 
 
 class Profile(SQLModel, table=True):
-    profileId: str = Field(default=CUID_GENERATOR.generate(), primary_key=True)
+    profileId: str = Field(default_factory=CUID_GENERATOR.generate, primary_key=True)
     userId: str = Field(foreign_key="user.userId", unique=True)
     displayName: str
     bio: str
@@ -47,7 +45,7 @@ class Profile(SQLModel, table=True):
 
 
 class Post(SQLModel, table=True):
-    postId: str = Field(default=CUID_GENERATOR.generate(), primary_key=True)
+    postId: str = Field(default_factory=CUID_GENERATOR.generate, primary_key=True)
     userId: str = Field(foreign_key="user.userId")
     content: str
     deleted:bool = False
@@ -84,7 +82,7 @@ class Repost(SQLModel, table=True):
 
 
 class Comment(SQLModel, table=True):
-    commentId: str = Field(default=CUID_GENERATOR.generate(), primary_key=True)
+    commentId: str = Field(default_factory=CUID_GENERATOR.generate, primary_key=True)
     postId: str = Field(foreign_key="post.postId")
     userId: str = Field(foreign_key="user.userId")
     content: str
