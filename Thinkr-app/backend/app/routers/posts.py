@@ -24,7 +24,10 @@ async def create_post(body: CreatePostBody, userId: Annotated[str, Depends(is_au
         session.commit()
         session.refresh(post)
 
-    return 
+        user = session.exec(select(User).where(User.userId == post.userId)).first()
+        profile = session.exec(select(Profile).where(Profile.userId == post.userId)).first()
+
+    return {**post.model_dump(), "User": {**user.model_dump(), "Profile": profile}}
 
 
 @router.get("/")

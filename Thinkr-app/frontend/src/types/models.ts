@@ -32,3 +32,5 @@ export type Post = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type ReturnPost = Post & { User: User & { Profile: Profile } };

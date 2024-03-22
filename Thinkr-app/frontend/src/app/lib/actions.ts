@@ -1,6 +1,6 @@
 "use server";
 
-import { AuthResponse } from "@/types/models";
+import { AuthResponse, ReturnPost } from "@/types/models";
 import { cookies } from "next/headers";
 import { FastApi } from "./FastApi";
 import { getUserIdFromCookies } from "./session";
@@ -96,9 +96,9 @@ export const createPost = async (formData: FormData) => {
       content: formData.get("content"),
     };
 
-    const res = await FastApi.post("/posts", body);
-    // console.log("RESPONSE:");
-    // console.log(res);
+    const res = await FastApi.post<ReturnPost>("/posts", body);
+
+    return res.data;
   } catch (error) {
     console.log(error);
   }
