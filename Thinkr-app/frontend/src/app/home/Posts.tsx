@@ -3,23 +3,32 @@
 import { relativeDateFormatter } from "@/helpers/relativeDateFormatter";
 import Image from "next/image";
 import Link from "next/link";
+import { getPosts } from "../lib/post";
+import { convertUTCDateToLocal } from "@/helpers/convertUtcDateToLocal";
 
-export const Posts = ({ posts }: { posts: any[] }) => {
+type IPost = Awaited<ReturnType<typeof getPosts>>[number];
+
+export const Posts = ({ posts }: { posts: IPost[] }) => {
   return (
     <>
-      {posts.map((post, index) => (
-        <Post key={index} />
-      ))}
+      {posts
+        .sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+        )
+        .map((post, index) => (
+          <Post post={post} key={index} />
+        ))}
     </>
   );
 };
 
-export const Post = () => {
+export const Post = ({ post }: { post: IPost }) => {
   return (
     <div className="mb-8 flex items-start rounded-3xl bg-ownLight p-8 dark:bg-ownLightBlue">
-      {/* PICTURE PLACEHOLDER */}
       <div className="flex grow flex-col">
         <div className="flex">
+          {/* PICTURE PLACEHOLDER */}
           <div className="mr-4 h-12 w-12 min-w-12 rounded-full bg-ownWhite" />
           <section className="grow">
             <div className="flex justify-between">
@@ -27,8 +36,12 @@ export const Post = () => {
                 href={"/home/TESTUSER"}
                 className="flex items-baseline space-x-2 hover:underline"
               >
-                <h1 className="flex flex-col font-semibold">NAME</h1>
-                <h3 className="mb-1 text-sm text-ownGrey">@tag</h3>
+                <h1 className="flex flex-col font-semibold">
+                  {post.User.Profile.displayName}
+                </h1>
+                <h3 className="mb-1 text-sm text-ownGrey">
+                  @{post.User.username}
+                </h3>
               </Link>
               <button className="min-w-7">
                 <Image
@@ -40,16 +53,14 @@ export const Post = () => {
               </button>
             </div>
             <h3 className="mb-4 text-sm text-ownGrey">
-              {relativeDateFormatter(new Date().getTime() - 5000)}
+              {relativeDateFormatter(
+                convertUTCDateToLocal(new Date(post.createdAt)).getTime(),
+              )}
             </h3>
           </section>
         </div>
 
-        <p className="mb-8">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat
-          asperiores molestiae nostrum ex atque a eum similique pariatur
-          veritatis, saepe consequuntur eveniet ducimus nihil est.
-        </p>
+        <p className="mb-8">{post.content}</p>
 
         <div className="flex justify-between">
           <PostButton amount={50}>

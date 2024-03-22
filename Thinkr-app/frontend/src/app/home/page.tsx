@@ -1,11 +1,15 @@
+import { getPosts } from "../lib/post";
 import { InputBox } from "./InputBox";
 import { Posts } from "./Posts";
+import { getUserData } from "./layout";
 
-export default function Home() {
+export default async function Home() {
+  const user = await getUserData();
+  const posts = await getPosts();
   return (
     <>
-      <InputBox />
-      <Posts posts={[1, 2, 3, 4, 5]} />
+      <InputBox user={user} />
+      <Posts posts={posts} />
     </>
   );
 }

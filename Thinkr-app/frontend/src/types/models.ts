@@ -23,3 +23,12 @@ export type Profile = {
 export type AuthResponse = {
   access_token: string;
 };
+
+export type Post = {
+  postId: string;
+  userId: string;
+  content: string;
+  deleted: boolean;
+  createdAt: string;
+  updatedAt: string;
+};

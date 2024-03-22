@@ -3,9 +3,22 @@ import Image from "next/image";
 import { RecommendedPost } from "./RecommendedPost";
 import { routeGuard } from "../lib/routeGuard";
 import { Metadata } from "next";
+import { Profile, User } from "@/types/models";
 
 export const metadata: Metadata = {
   title: "Home",
+};
+
+export const getUserData = async () => {
+  // change type to what is kind of accurate
+  const data = (await routeGuard("home")) as NonNullable<
+    Awaited<ReturnType<typeof routeGuard>>
+  >;
+
+  // flatten
+  const flattenedData = { ...data.profile, ...data.user };
+  const { password, ...others } = flattenedData;
+  return others;
 };
 
 export default async function HomeLayout({
@@ -13,29 +26,23 @@ export default async function HomeLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const data = (await routeGuard("home")) as NonNullable<
-    Awaited<ReturnType<typeof routeGuard>>
-  >;
+  const user = await getUserData();
 
   return (
     <main className="flex flex-col px-10">
       <Header
-        profile={{
-          ...data.profile,
-          username: data.user.username,
-        }}
+        user={user}
         className="sticky top-0 z-10 flex items-center bg-ownCream py-6 dark:bg-ownBlue"
       />
 
       <section className="flex">
         <Profile
-          profile={{
-            ...data.profile,
-            username: data.user.username,
-          }}
+          user={user}
           className="sticky top-[106px] hidden w-96 min-w-96 flex-col items-center self-start overflow-hidden rounded-3xl bg-ownLight xl:flex dark:bg-ownLightBlue"
         />
-        <Content className="mx-8 grow">{children}</Content>
+        <Content user={user} className="mx-8 grow">
+          {children}
+        </Content>
         <Recommended className="sticky top-[106px] hidden flex-col self-start rounded-3xl bg-ownLight lg:flex lg:w-64 lg:min-w-64 xl:w-96 xl:min-w-96 dark:bg-ownLightBlue" />
       </section>
     </main>
@@ -44,16 +51,10 @@ export default async function HomeLayout({
 
 const Header = ({
   className,
-  profile,
+  user,
 }: {
   className?: string;
-  profile: {
-    username: string;
-    banner: string;
-    photo: string;
-    displayName: string;
-    bio: string;
-  };
+  user: Omit<User & Profile, "password">;
 }) => {
   return (
     <header className={`${className}`}>
@@ -88,13 +89,13 @@ const Header = ({
 
       <section className="hidden items-center justify-between space-x-8 lg:flex lg:w-64 lg:min-w-64 xl:w-96 xl:min-w-96">
         <button className="flex h-12 grow items-center rounded-3xl bg-ownLight dark:bg-ownLightBlue">
-          {profile.photo ? (
-            <Image src={profile.photo} alt="profile picture" />
+          {user.photo ? (
+            <Image src={user.photo} alt="profile picture" />
           ) : (
             <div className="m-1 h-10 w-10 rounded-full bg-ownWhite" />
           )}
 
-          <div className="mx-2 grow text-start">{profile.displayName}</div>
+          <div className="mx-2 grow text-start">{user.displayName}</div>
 
           <div
             className="mx-4 h-0 w-0 rounded-full border-b-ownBlack border-l-ownTransparent border-r-ownTransparent border-t-ownTransparent dark:border-b-ownCream"
@@ -123,36 +124,26 @@ const Header = ({
 
 const Profile = ({
   className,
-  profile,
+  user,
 }: {
   className?: string;
-  profile: {
-    username: string;
-    banner: string;
-    photo: string;
-    displayName: string;
-    bio: string;
-  };
+  user: Omit<User & Profile, "password">;
 }) => {
   return (
     <section className={className}>
       {/* topPart */}
       <div className="relative mb-6 flex w-full flex-col items-center">
         {/* BANNER PLACEHOLDER */}
-        {profile.banner ? (
-          <Image
-            src={profile.banner}
-            alt="banner"
-            className="mb-4 h-24 w-full"
-          />
+        {user.banner ? (
+          <Image src={user.banner} alt="banner" className="mb-4 h-24 w-full" />
         ) : (
           <div className="mb-4 h-24 w-full bg-ownBlack" />
         )}
 
         {/* Picture PLACEHOLDER */}
-        {profile.photo ? (
+        {user.photo ? (
           <Image
-            src={profile.photo}
+            src={user.photo}
             alt="profile picture"
             className="absolute mt-12 h-24 w-24 rounded-full bg-ownWhite"
           />
@@ -163,10 +154,10 @@ const Profile = ({
 
       <div className="flex flex-col items-center p-6">
         {/* NAME PLACEHOLDER */}
-        <h2 className="text-lg font-bold">{profile.displayName}</h2>
+        <h2 className="text-lg font-bold">{user.displayName}</h2>
         {/* TAG PLACEHOLDER */}
-        <h3 className="mb-1 text-ownGrey">@{profile.username}</h3>
-        <p className="text-center font-medium">{profile.bio}</p>
+        <h3 className="mb-1 text-ownGrey">@{user.username}</h3>
+        <p className="text-center font-medium">{user.bio}</p>
       </div>
 
       <div className="flex w-full border-b border-t border-ownCream dark:border-ownLighterBlue">
@@ -182,7 +173,7 @@ const Profile = ({
       </div>
 
       <Link
-        href={`/home/${profile.username}`}
+        href={`/home/${user.username}`}
         className="w-full p-4 text-center text-ownGreen hover:underline"
       >
         Show profile
@@ -194,9 +185,11 @@ const Profile = ({
 const Content = ({
   className,
   children,
+  user,
 }: {
   className?: string;
   children: React.ReactNode;
+  user: Omit<User & Profile, "password">;
 }) => {
   return <section className={`${className}`}>{children}</section>;
 };

@@ -5,6 +5,11 @@ import { cookies } from "next/headers";
 import { FastApi } from "./FastApi";
 import { getUserIdFromCookies } from "./session";
 
+export const setAuthCookies = (refreshToken: string, accessToken: string) => {
+  cookies().set("jid", refreshToken, { httpOnly: true });
+  cookies().set("auth", accessToken);
+};
+
 export const login = async (formData: FormData) => {
   try {
     const body: { email: string; password: string } = {
@@ -25,12 +30,11 @@ export const login = async (formData: FormData) => {
 
     if (!res.headers["set-cookie"]?.[0]) throw Error("Cookie error");
 
-    const cookieValue = res.headers["set-cookie"][0]
+    const refreshToken = res.headers["set-cookie"][0]
       .split("jid=")[1]
       .split(";")[0];
 
-    cookies().set("jid", cookieValue, { httpOnly: true });
-    cookies().set("auth", res.data.access_token);
+    setAuthCookies(refreshToken, res.data.access_token);
   } catch (error) {
     console.log(error);
   }
@@ -58,11 +62,11 @@ export const register = async (formData: FormData) => {
 
     if (!res.headers["set-cookie"]?.[0]) throw Error("Cookie error");
 
-    const cookieValue = res.headers["set-cookie"][0]
+    const refreshToken = res.headers["set-cookie"][0]
       .split("jid=")[1]
       .split(";")[0];
 
-    cookies().set("jid", cookieValue, { httpOnly: true });
+    setAuthCookies(refreshToken, res.data.access_token);
   } catch (error) {
     console.log(error);
   }
@@ -79,8 +83,22 @@ export const createProfile = async (formData: FormData) => {
       photo: "",
     };
 
+    // todo:
     const res = await FastApi.post("/profiles", body);
-    // TODO: do something with response.
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const createPost = async (formData: FormData) => {
+  try {
+    const body = {
+      content: formData.get("content"),
+    };
+
+    const res = await FastApi.post("/posts", body);
+    // console.log("RESPONSE:");
+    // console.log(res);
   } catch (error) {
     console.log(error);
   }
