@@ -8,8 +8,8 @@ from ..utils.is_auth import is_auth
 from ..utils.database import engine
 from ..dependencies import secret
 
-
 router = APIRouter(prefix="/posts")
+
 
 class CreatePostBody(BaseModel):
     content: str
