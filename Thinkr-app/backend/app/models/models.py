@@ -8,7 +8,7 @@ CUID_GENERATOR = Cuid()
 
 class User(SQLModel, table=True):
     userId: str = Field(default_factory=CUID_GENERATOR.generate, primary_key=True)
-    username: str
+    username: str = Field(unique=True)
     email: str = Field(unique=True)
     password:str
     verified:bool = False

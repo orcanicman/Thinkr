@@ -19,9 +19,10 @@ async def get_users():
 
 
 @router.get("/{user_id}")
-async def get_user(user_id: str):
+async def get_user(user_id: str, type: str | None = None):
     with Session(engine) as session:
-        user, profile = session.exec(select(User, Profile).join(Profile).where(User.userId == user_id)).first()
+        # why are ternaries so ugly in python
+        user, profile = session.exec(select(User, Profile).join(Profile).where((User.userId == user_id) if type == None else (User.username == user_id))).first()
         
         returnUser = {**user.model_dump(), "Profile": profile}
         return returnUser
