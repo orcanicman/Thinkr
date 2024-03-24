@@ -1,29 +1,39 @@
+import { getPostsFromUser, getUser } from "@/app/lib/user";
 import { Posts } from "../Posts";
+import Image from "next/image";
 
-// TODO: Fetch profile posts
+export default async function Page({
+  params,
+}: {
+  params: { usertag: string };
+}) {
+  // get user by tag
+  const user = await getUser({ param: params.usertag, type: "tag" });
 
-export default function Page({ params }: { params: { usertag: string } }) {
+  const posts = await getPostsFromUser({ param: user.userId });
+
   return (
     <main>
       <section className="mb-6 rounded-3xl bg-ownLightBlue">
         <header className="relative mb-16">
-          {/* BANNER PLACEHOLDER */}
-          <div className="mb-4 h-80 w-full rounded-t-3xl bg-ownBlack" />
+          {user.Profile.banner ? (
+            <Image src={user.Profile.banner} alt="" />
+          ) : (
+            <div className="mb-4 h-80 w-full rounded-t-3xl bg-ownBlack" />
+          )}
 
-          {/* Picture PLACEHOLDER */}
-          <div className="absolute -bottom-16 left-8 h-36 w-36 rounded-full bg-ownWhite" />
+          {user.Profile.photo ? (
+            <Image src={user.Profile.photo} alt="" />
+          ) : (
+            <div className="absolute -bottom-16 left-8 h-36 w-36 rounded-full bg-ownWhite" />
+          )}
         </header>
         <main className="p-6">
           <section className="mb-4 flex items-baseline space-x-2">
-            <h1 className="text-2xl font-bold">USERNAME</h1>
+            <h1 className="text-2xl font-bold">{user.username}</h1>
             <span className="text-sm text-ownGrey">@{params.usertag}</span>
           </section>
-          <p className="mb-4">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut iusto
-            eaque vitae libero, nulla facere. Dolorum excepturi accusamus
-            perspiciatis iure nulla, est quisquam. Maxime porro distinctio
-            laboriosam unde sapiente non!
-          </p>
+          <p className="mb-4">{user.Profile.bio}</p>
 
           <section className="flex justify-between">
             <button className="active grow font-bold underline decoration-ownGreen decoration-2 underline-offset-8 hover:underline">
@@ -38,7 +48,7 @@ export default function Page({ params }: { params: { usertag: string } }) {
           </section>
         </main>
       </section>
-      <Posts posts={[1, 2, 3, 4, 5]} />
+      <Posts posts={posts} />
     </main>
   );
 }

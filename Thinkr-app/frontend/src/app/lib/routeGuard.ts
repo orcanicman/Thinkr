@@ -14,14 +14,14 @@ export const routeGuard = async (
   }
 
   // If the userId is not valid, redirect to login
-  const user = await getUser(userId);
+  const user = await getUser({ param: userId });
   if (!user) {
     !(ignore == "login") && redirect("/login");
     return;
   }
 
   // If the user has no profile, redirect to finish-setting-up
-  const profile = await getProfile(user.userId);
+  const profile = await getProfile({ param: user.userId });
   if (!profile) {
     !(ignore == "finish-setting-up") && redirect("/finish-setting-up");
     return;

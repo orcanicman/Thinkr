@@ -34,3 +34,5 @@ export type Post = {
 };
 
 export type ReturnPost = Post & { User: User & { Profile: Profile } };
+
+export type ReturnUser = User & { Profile: Profile };
