@@ -4,7 +4,7 @@ import { relativeDateFormatter } from "@/helpers/relativeDateFormatter";
 import Image from "next/image";
 import Link from "next/link";
 import { getPosts } from "../lib/post";
-import { convertUTCDateToLocal } from "@/helpers/convertUtcDateToLocal";
+import { convertUTCDateToLocal } from "@/helpers/convertUTCDateToLocal";
 
 type IPost = Awaited<ReturnType<typeof getPosts>>[number];
 
@@ -33,10 +33,10 @@ export const Post = ({ post }: { post: IPost }) => {
           <section className="grow">
             <div className="flex justify-between">
               <Link
-                href={"/home/TESTUSER"}
-                className="flex items-baseline space-x-2 hover:underline"
+                href={`/home/${post.User.username}`}
+                className="flex items-baseline space-x-2"
               >
-                <h1 className="flex flex-col font-semibold">
+                <h1 className="flex flex-col font-semibold hover:underline">
                   {post.User.Profile.displayName}
                 </h1>
                 <h3 className="mb-1 text-sm text-ownGrey">

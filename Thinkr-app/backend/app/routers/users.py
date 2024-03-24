@@ -1,48 +1,40 @@
 from fastapi import APIRouter
 from sqlmodel import Session, select
-from app.models.models import User
+from app.models.models import Post, Profile, User
 from ..utils.database import engine
 
 router = APIRouter(prefix="/users")
 
-# User routes
+
 @router.get("/")
-async def read_users():
+async def get_users():
     with Session(engine) as session:
-        users = session.exec(select(User)).all()
-        return users
+        data = session.exec(select(User, Profile).where(User.userId == Profile.userId)).all()
+        
+        returnData = []
+        for user, profile in data:
+            returnData.append({**user.model_dump(), "Profile": profile})
+        
+        return returnData
+
 
 @router.get("/{user_id}")
-async def read_user(user_id: str):
+async def get_user(user_id: str, type: str | None = None):
     with Session(engine) as session:
-        user = session.exec(select(User).where(User.userId == user_id)).first()
-        return user
+        # why are ternaries so ugly in python
+        user, profile = session.exec(select(User, Profile).join(Profile).where((User.userId == user_id) if type == None else (User.username == user_id))).first()
+        
+        returnUser = {**user.model_dump(), "Profile": profile}
+        return returnUser
+    
 
-@router.post("/")
-async def create_user(user: User):
-    # TODO: Validate body
+@router.get("/{user_id}/posts")
+async def get_user_posts(user_id:str):
     with Session(engine) as session:
-        session.add(user)
-        session.commit()
-        session.refresh(user)
-        return user
+        data = session.exec(select(Post, User, Profile).where(User.userId == user_id, Profile.userId == user_id, Post.userId == user_id))
 
-@router.put("/{user_id}")
-async def update_user(user_id: str, user: User):
-    with Session(engine) as session:
-        user_ = session.exec(select(User).where(User.userId == user_id)).first()
-        user_.username = user.username
-        user_.email = user.email
-        user_.hashedPassword = user.hashedPassword
-        session.commit()
-        session.refresh(user_)
-        return user_
-
-@router.delete("/{user_id}")
-async def delete_user(user_id: str):
-    with Session(engine) as session:
-        user = session.exec(select(User).where(User.userId == user_id)).first()
-        session.delete(user)
-        session.commit()
-        return {"message": "User deleted successfully"}
-
+        returnData = []
+        for post, user, profile in data:
+            returnData.append({**post.model_dump(), "User": {**user.model_dump(), "Profile": {**profile.model_dump()}}})
+        
+        return returnData
