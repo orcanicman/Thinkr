@@ -28,7 +28,9 @@ async def get_user(user_id: str, type: str | None = None):
                 (User.username == user_id))
         ).first()
         
-        profile = session.exec(select(Profile).where(Profile.userId == user_id)).first()
+        profile = session.exec(select(Profile).where(Profile.userId == user.userId)).first()
+
+        print(f'profile: {profile}')
 
         returnUser = {**user.model_dump(), "Profile": profile}
         return returnUser
