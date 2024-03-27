@@ -1,12 +1,10 @@
 from typing import Annotated
-from fastapi import APIRouter, Depends, Header
+from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 from sqlmodel import Session, select
-from jwt import decode
 from app.models.models import Post, User, Profile
 from ..utils.is_auth import is_auth
 from ..utils.database import engine
-from ..dependencies import secret
 
 router = APIRouter(prefix="/posts")
 
