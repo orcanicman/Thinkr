@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from sqlmodel import Session, select
 from app.models.models import Post, Profile, User
 from ..utils.database import engine
@@ -27,12 +27,15 @@ async def get_user(user_id: str, type: str | None = None):
                 if type == None else 
                 (User.username == user_id))
         ).first()
+
+        if user == None:
+            raise HTTPException(status_code=404, detail="User not found")
         
         profile = session.exec(select(Profile).where(Profile.userId == user.userId)).first()
 
         returnUser = {**user.model_dump(), "Profile": profile}
         return returnUser
-    
+
 
 @router.get("/{user_id}/posts")
 async def get_user_posts(user_id:str):

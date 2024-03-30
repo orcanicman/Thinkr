@@ -99,8 +99,8 @@ class Comment(SQLModel, table=True):
 
 
 class Follow(SQLModel, table=True):
-    follwer: str = Field(foreign_key="user.userId", primary_key=True)
-    follwing: str = Field(foreign_key="user.userId", primary_key=True)
+    follower: str = Field(foreign_key="user.userId", primary_key=True)
+    following: str = Field(foreign_key="user.userId", primary_key=True)
 
 
 def create_db_and_tables():
