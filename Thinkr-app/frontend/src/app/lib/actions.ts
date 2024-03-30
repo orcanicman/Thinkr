@@ -103,3 +103,31 @@ export const createPost = async (formData: FormData) => {
     console.log(error);
   }
 };
+
+export const follow = async (formData: FormData) => {
+  try {
+    const body = {
+      user_id: formData.get("user_id"),
+    };
+
+    const res = await FastApi.post<any>("/follows/follow", body);
+
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const unfollow = async (formData: FormData) => {
+  try {
+    const body = {
+      user_id: formData.get("user_id"),
+    };
+
+    const res = await FastApi.post<any>("/follows/unfollow", body);
+
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

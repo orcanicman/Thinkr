@@ -19,6 +19,7 @@ const config: Config = {
       ownGrey: "#888888",
       ownGreen: "#20DF7F",
       ownTransparent: "#00000000",
+      ownRed: "#61210f",
     },
   },
   plugins: [],
