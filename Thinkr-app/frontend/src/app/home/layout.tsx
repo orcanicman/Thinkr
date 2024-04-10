@@ -3,12 +3,9 @@ import Image from "next/image";
 import { RecommendedPost } from "./RecommendedPost";
 import { routeGuard } from "../lib/routeGuard";
 import { Metadata } from "next";
-import {
-  Profile as IProfile,
-  ReturnFollower,
-  ReturnUser,
-} from "@/types/models";
+import { ReturnFollower, ReturnPost, ReturnUser } from "@/types/models";
 import { getFollowersFromUser, getFollowsFromUser } from "../lib/user";
+import { getPosts } from "../lib/post";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -33,6 +30,8 @@ export default async function HomeLayout({
   const followers = await getFollowersFromUser({ param: user.userId });
   const follows = await getFollowsFromUser({ param: user.userId });
 
+  const posts = await getPosts();
+
   return (
     <main className="flex flex-col px-10">
       <Header
@@ -45,10 +44,11 @@ export default async function HomeLayout({
           user={{ ...user, Followers: followers, Follows: follows }}
           className="sticky top-[106px] hidden w-96 min-w-96 flex-col items-center self-start overflow-hidden rounded-3xl bg-ownLight xl:flex dark:bg-ownLightBlue"
         />
-        <Content user={user} className="mx-8 grow">
-          {children}
-        </Content>
-        <Recommended className="sticky top-[106px] hidden flex-col self-start rounded-3xl bg-ownLight lg:flex lg:w-64 lg:min-w-64 xl:w-96 xl:min-w-96 dark:bg-ownLightBlue" />
+        <Content className="mx-8 grow">{children}</Content>
+        <Recommended
+          posts={posts}
+          className="sticky top-[106px] hidden flex-col self-start rounded-3xl bg-ownLight lg:flex lg:w-64 lg:min-w-64 xl:w-96 xl:min-w-96 dark:bg-ownLightBlue"
+        />
       </section>
     </main>
   );
@@ -199,16 +199,20 @@ const Profile = ({
 const Content = ({
   className,
   children,
-  user,
 }: {
   className?: string;
   children: React.ReactNode;
-  user: Omit<ReturnUser, "password">;
 }) => {
   return <section className={`${className}`}>{children}</section>;
 };
 
-const Recommended = ({ className }: { className?: string }) => {
+const Recommended = ({
+  className,
+  posts,
+}: {
+  className?: string;
+  posts: ReturnPost[];
+}) => {
   return (
     <section className={`${className} p-6`}>
       <div className="mb-4 flex">
@@ -218,12 +222,17 @@ const Recommended = ({ className }: { className?: string }) => {
         </button>
       </div>
       <h3 className="mb-4 text-ownGrey">RECENT POPULAR POSTS</h3>
-      <RecommendedPost
-        title="PLACEHOLDER TITLE 1  sa dafd a da da da"
-        likes={255}
-        link="#"
-      />
-      <RecommendedPost title="PLACEHOLDER TITLE 2" likes={1252} link="#" />
+      {posts.map((post, index) => {
+        if (index + 1 <= 3)
+          return (
+            <RecommendedPost
+              key={index}
+              title={post.content}
+              likes={0}
+              link="#"
+            />
+          );
+      })}
       <Link href={"#"} className="text-ownGreen hover:underline">
         Show more
       </Link>
