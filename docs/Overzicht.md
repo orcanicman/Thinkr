@@ -16,9 +16,10 @@
    2. Profiel aanmaken ✅
    3. Inloggen ✅
    4. Post aanmaken ✅
-   5. Accounts weergeven ✅
-   6. Andere gebruiker volgen ✅
-   7. Uitloggen ❌
+   5. Post verwijderen ❌
+   6. Accounts weergeven ✅
+   7. Andere gebruiker volgen ✅
+   8. Uitloggen ❌
 4. Features voor later
    1. Posts liken ❌
    2. Comments plaatsen ❌
