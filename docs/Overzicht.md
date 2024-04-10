@@ -11,6 +11,21 @@
    1. Design
    2. Git(hub)
    3. Werkomgeving
+3. Features bij inlevering project.
+   1. Account aanmaken ✅
+   2. Profiel aanmaken ✅
+   3. Inloggen ✅
+   4. Post aanmaken ✅
+   5. Accounts weergeven ✅
+   6. Andere gebruiker volgen ✅
+   7. Uitloggen ❌
+4. Features voor later
+   1. Posts liken ❌
+   2. Comments plaatsen ❌
+   3. Posts reposten ❌
+   4. Zoekfunctie ❌
+   5. Profiel aanpassen ❌
+   6. Post bekijken ❌
 
 ## Introductie
 
@@ -38,10 +53,49 @@ Dit project wordt ontworpen in `Figma`<!-- balls -->. Een interactieve ontwerp t
 
 ### Git
 
-Voor dit project is er een Git repo aangemaakt waar in verschillende branches gewerkt wordt en na code-review opgenomen wordt in de main branch.
+Voor dit project is er een Git repo aangemaakt waar in verschillende branches gewerkt wordt. Na code-review kan je pull request pas worden opgenomen in de main branch.
 
 ### Werkomgeving
 
 Voor dit project gebruiken we Visual studio code als werkomgeving. Met een aantal extensions namelijk: `Python`, `Prettier`, `TailwindCSS` en `ESLint`.
 
 <!-- link naar figma file [link](https://www.figma.com/file/3Sn2Edgmplv00aPOTISWDW/Thinkr-Design?type=design&node-id=0%3A1&mode=design&t=5x8MLYAifqjnASd2-1) -->
+
+## Features bij inlevering project.
+
+### Account aanmaken
+
+Bij inlevering van het project hoort een gebruiker een account aan te kunnen maken met deze gegevens: `Email`, `Password`, `Username`.
+
+### Profiel aanmaken
+
+Bij inlevering van het project moet een gemaakt account een profiel te kunnen aanmaken met deze gegevens: `Display name`, `Bio`.
+
+### Inloggen
+
+Bij inlevereing van het project hoort een gebruiker in te kunnen loggen met deze gegevens: `Email`, `Password`
+
+### Post aanmaken
+
+Bij inlevering van het project moet een gebruiker die ingelogd is posts kunnen aanmaken.
+
+### Accounts weergeven
+
+Bij inlevering van het project moet een ingelogde gebruiker zijn of iemand anders account kunnen weergeven.
+
+### Andere gebruiker volgen
+
+Bij inlevering van het project moet een gebruiker die ingelogd is een andere gebruiker kunnen volgen. Dit gaat via de account weergave.
+
+### Uitloggen
+
+Bij inlevering van het project behoort een ingelogde gebruiker uit te kunnen loggen.
+
+## 4 Features voor later
+
+1.  Posts liken
+2.  Comments plaatsen
+3.  Posts reposten
+4.  Zoekfunctie
+5.  Profiel aanpassen
+6.  Post bekijken
