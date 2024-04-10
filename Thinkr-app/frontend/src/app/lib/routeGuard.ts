@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 import { getUserIdFromCookies } from "./session";
-import { getProfile, getUser } from "./user";
-// import { Profile, User } from "@/types/models";
+import { getUser } from "./user";
 
 export const routeGuard = async (
   ignore: "login" | "finish-setting-up" | "home",
@@ -20,9 +19,7 @@ export const routeGuard = async (
     return;
   }
 
-  // If the user has no profile, redirect to finish-setting-up
-  const profile = await getProfile({ param: user.userId });
-  if (!profile) {
+  if (!user.Profile) {
     !(ignore == "finish-setting-up") && redirect("/finish-setting-up");
     return;
   }
@@ -30,7 +27,7 @@ export const routeGuard = async (
   // If user and profile exist, redirect to home
   !(ignore == "home") && redirect("/home");
 
-  return { user, profile };
+  return user;
 };
 
 // Pseudo typing, TODO: make returnType implementation correct

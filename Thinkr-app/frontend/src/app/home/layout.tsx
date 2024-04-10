@@ -3,21 +3,24 @@ import Image from "next/image";
 import { RecommendedPost } from "./RecommendedPost";
 import { routeGuard } from "../lib/routeGuard";
 import { Metadata } from "next";
-import { Profile, User } from "@/types/models";
+import {
+  Profile as IProfile,
+  ReturnFollower,
+  ReturnUser,
+} from "@/types/models";
+import { getFollowersFromUser, getFollowsFromUser } from "../lib/user";
 
 export const metadata: Metadata = {
   title: "Home",
 };
 
 export const getUserData = async () => {
-  // change type to what is kind of accurate
+  // I could do this or just add an "!" to fix the type. I think this is better until we fix the routeguard type.
   const data = (await routeGuard("home")) as NonNullable<
     Awaited<ReturnType<typeof routeGuard>>
   >;
 
-  // flatten
-  const flattenedData = { ...data.profile, ...data.user };
-  const { password, ...others } = flattenedData;
+  const { password, ...others } = data;
   return others;
 };
 
@@ -27,6 +30,8 @@ export default async function HomeLayout({
   children: React.ReactNode;
 }>) {
   const user = await getUserData();
+  const followers = await getFollowersFromUser({ param: user.userId });
+  const follows = await getFollowsFromUser({ param: user.userId });
 
   return (
     <main className="flex flex-col px-10">
@@ -37,7 +42,7 @@ export default async function HomeLayout({
 
       <section className="flex">
         <Profile
-          user={user}
+          user={{ ...user, Followers: followers, Follows: follows }}
           className="sticky top-[106px] hidden w-96 min-w-96 flex-col items-center self-start overflow-hidden rounded-3xl bg-ownLight xl:flex dark:bg-ownLightBlue"
         />
         <Content user={user} className="mx-8 grow">
@@ -54,7 +59,7 @@ const Header = ({
   user,
 }: {
   className?: string;
-  user: Omit<User & Profile, "password">;
+  user: Omit<ReturnUser, "password">;
 }) => {
   return (
     <header className={`${className}`}>
@@ -89,13 +94,15 @@ const Header = ({
 
       <section className="hidden items-center justify-between space-x-8 lg:flex lg:w-64 lg:min-w-64 xl:w-96 xl:min-w-96">
         <button className="flex h-12 grow items-center rounded-3xl bg-ownLight dark:bg-ownLightBlue">
-          {user.photo ? (
-            <Image src={user.photo} alt="profile picture" />
+          {user.Profile?.photo ? (
+            <Image src={user.Profile.photo} alt="profile picture" />
           ) : (
             <div className="m-1 h-10 w-10 rounded-full bg-ownWhite" />
           )}
 
-          <div className="mx-2 grow text-start">{user.displayName}</div>
+          <div className="mx-2 grow text-start">
+            {user.Profile?.displayName}
+          </div>
 
           <div
             className="mx-4 h-0 w-0 rounded-full border-b-ownBlack border-l-ownTransparent border-r-ownTransparent border-t-ownTransparent dark:border-b-ownCream"
@@ -127,23 +134,30 @@ const Profile = ({
   user,
 }: {
   className?: string;
-  user: Omit<User & Profile, "password">;
+  user: Omit<ReturnUser, "password"> & {
+    Followers: ReturnFollower[];
+    Follows: ReturnFollower[];
+  };
 }) => {
   return (
     <section className={className}>
       {/* topPart */}
       <div className="relative mb-6 flex w-full flex-col items-center">
         {/* BANNER PLACEHOLDER */}
-        {user.banner ? (
-          <Image src={user.banner} alt="banner" className="mb-4 h-24 w-full" />
+        {user.Profile?.banner ? (
+          <Image
+            src={user.Profile.banner}
+            alt="banner"
+            className="mb-4 h-24 w-full"
+          />
         ) : (
           <div className="mb-4 h-24 w-full bg-ownBlack" />
         )}
 
         {/* Picture PLACEHOLDER */}
-        {user.photo ? (
+        {user.Profile?.photo ? (
           <Image
-            src={user.photo}
+            src={user.Profile.photo}
             alt="profile picture"
             className="absolute mt-12 h-24 w-24 rounded-full bg-ownWhite"
           />
@@ -154,20 +168,20 @@ const Profile = ({
 
       <div className="flex flex-col items-center p-6">
         {/* NAME PLACEHOLDER */}
-        <h2 className="text-lg font-bold">{user.displayName}</h2>
+        <h2 className="text-lg font-bold">{user.Profile?.displayName}</h2>
         {/* TAG PLACEHOLDER */}
         <h3 className="mb-1 text-ownGrey">@{user.username}</h3>
-        <p className="text-center font-medium">{user.bio}</p>
+        <p className="text-center font-medium">{user.Profile?.bio}</p>
       </div>
 
       <div className="flex w-full border-b border-t border-ownCream dark:border-ownLighterBlue">
         <button className="flex flex-1 flex-col items-center p-5">
-          <div className="font-bold">1,024</div>
+          <div className="font-bold">{user.Follows.length}</div>
           <div className="text-ownGrey">Following</div>
         </button>
         <div className="border-r border-ownCream dark:border-ownLighterBlue" />
         <button className="flex flex-1 flex-col items-center p-5">
-          <div className="font-bold">128</div>
+          <div className="font-bold">{user.Followers.length}</div>
           <div className="text-ownGrey">Followers</div>
         </button>
       </div>
@@ -189,7 +203,7 @@ const Content = ({
 }: {
   className?: string;
   children: React.ReactNode;
-  user: Omit<User & Profile, "password">;
+  user: Omit<ReturnUser, "password">;
 }) => {
   return <section className={`${className}`}>{children}</section>;
 };

@@ -55,7 +55,21 @@ export const getPostsFromUser = async ({
 
 export const getFollowersFromUser = async ({ param }: { param: string }) => {
   try {
-    const res = await FastApi.get<ReturnFollower[]>(`/follows/${param}`);
+    const res = await FastApi.get<ReturnFollower[]>(
+      `/follows/${param}/followers`,
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+export const getFollowsFromUser = async ({ param }: { param: string }) => {
+  try {
+    const res = await FastApi.get<ReturnFollower[]>(
+      `/follows/${param}/follows`,
+    );
     return res.data;
   } catch (error) {
     console.log(error);

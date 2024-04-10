@@ -11,10 +11,26 @@ from ..utils.database import engine
 router = APIRouter(prefix="/follows")
 
 
-@router.get("/{user_id}")
+@router.get("/")
+async def get_all_followers():
+    with Session(engine) as session:
+        followers = session.exec(select(Follow)).all()
+        
+        return followers
+
+
+@router.get("/{user_id}/followers")
 async def get_followers(user_id: str):
     with Session(engine) as session:
         followers = session.exec(select(Follow).where(Follow.following == user_id)).all()
+        
+        return followers
+
+
+@router.get("/{user_id}/follows")
+async def get_following(user_id: str):
+    with Session(engine) as session:
+        followers = session.exec(select(Follow).where(Follow.follower == user_id)).all()
         
         return followers
     
@@ -27,8 +43,8 @@ class FollowBody(BaseModel):
 async def follow(body: FollowBody, user_id: Annotated[str, Depends(is_auth)]):
     with Session(engine) as session:
         # check if already exists.
-        isFollowig = session.exec(select(Follow).where(Follow.following == body.user_id)).first()
-        
+        isFollowig = session.exec(select(Follow).where(Follow.following == body.user_id, Follow.follower == user_id)).first()
+
         if isFollowig == None:
             new_follow = Follow(follower=user_id, following=body.user_id)
             session.add(new_follow)
